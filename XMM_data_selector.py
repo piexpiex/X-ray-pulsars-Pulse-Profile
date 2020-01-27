@@ -8,18 +8,13 @@ import matplotlib as mpl
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
-from fpropias import *
+from binary_cor import *
 from scipy.optimize import curve_fit
 from math import isnan
 
 name_file="src_sd.events"
 
-hdulist = fits.open(name_file)
-hdulist.info()
-header = hdulist[2].header
-print('...')
-#print(header)
-print('...')
+
 
 #datos (en principio)
 asini=26.33 #[It-sec]
@@ -38,40 +33,36 @@ hdulist = fits.open(name_file)
 hdulist.info()
 header = hdulist[0].header
 
-#lo anterior
-ev =EventList()
-ev = ev.read(name_file, 'fits')
+
 DATA = hdulist[1].data
 
-#times=ev.time
 times=np.zeros((len(DATA)))
 PHA=np.zeros((len(DATA)))
 for j in range(len(times)):
-	if j==round((len(DATA)*0.05):print(5,"%")
-	if j==round((len(DATA)*0.5):print(50,"%")
-	if j==round((len(DATA)*0.8):print(80,"%")
+	if j==round(len(DATA)*0.05):print(5,"%")
+	if j==round(len(DATA)*0.5):print(50,"%")
+	if j==round(len(DATA)*0.8):print(80,"%")
 	DATAj=DATA[j]
 	times[j]=DATAj[0]
 	PHA[j]=DATAj[7]
-	
-
 
 hdu = fits.PrimaryHDU(PHA)
 hdul = fits.HDUList([hdu])
-hdul.writeto('XMMpha.fits')
+hdul.writeto('XMMpha.fits',overwrite=True)
 
 for j in range(len(times)):
 	if isnan(times[j])==True:
-		print('DANGER',j)
+		print('DANGER --> lecture error at line',j,'of the file')
 
 TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 hdu = fits.PrimaryHDU(TIME)
 hdul = fits.HDUList([hdu])
-hdul.writeto('XMM.fits')
+hdul.writeto('XMM.fits',overwrite=True)
 
 times=TIME
 
 # We will search for pulsations over a range of frequencies around the known pulsation period.
+obs_length = times[len(times)-1]-times[0]
 df_min = 1/obs_length
 oversampling=15
 df = df_min / oversampling

@@ -8,7 +8,7 @@ import matplotlib as mpl
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
-from fpropias import *
+from binary_cor import *
 from scipy.optimize import curve_fit
 
 name_file=["nu30102041002A01_cl_src_bary.evt","nu30102041002B01_cl_src_bary.evt"] #name of the file with the data
@@ -74,6 +74,7 @@ hdul = fits.HDUList([hdu])
 hdul.writeto('nustar.fits')
 
 # We will search for pulsations over a range of frequencies around the known pulsation period.
+obs_length = times[len(times)-1]-times[0]
 df_min = 1/obs_length
 oversampling=15
 df = df_min / oversampling

@@ -8,7 +8,7 @@ import matplotlib as mpl
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
-from fpropias import *
+from binary_cor import *
 from scipy.optimize import curve_fit
 from astropy.modeling import fitting,models
 
