@@ -20,7 +20,9 @@ It is recommended to have installed PyAstronomy for faster run of the program.
 
 ##  XMM_data_selector.py / NuSTAR_data_selector.py
 
-It is necesary to install the Stingray Python package ([stingray.readthedocs](/io)).
+It is necesary to install the *[Stingray][1]* Python package ([stingray.readthedocs](/io)).
+
+[1]: https://stingray.readthedocs.io/en/latest/
 
 Selects the time of the data fits and return fits files with the corrected time values.
 
