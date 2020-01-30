@@ -12,13 +12,13 @@ These programs include:
 
 -Adjusment of pulse profiles by five sinusoids
 
-#binary_cor.py
+# binary_cor.py
 
 Corrects the time values due to the binary orbit delay.
 
 It is recommended to have installed PyAstronomy for faster run of the program.
 
-#XMM_data_selector.py / NuSTAR_data_selector.py
+#  XMM_data_selector.py / NuSTAR_data_selector.py
 
 Selects the time of the data fits and return fits files with the corrected time values
 
