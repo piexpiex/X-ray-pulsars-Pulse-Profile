@@ -35,16 +35,23 @@ header = hdulist[0].header
 
 
 DATA = hdulist[1].data
-
+print(DATA.columns.names)
 times=np.zeros((len(DATA)))
 PHA=np.zeros((len(DATA)))
+nmn=np.where(np.array(DATA.columns.names)=='PHA')
+PHA_column=nmn[0][0]
+print(PHA_column)
+
+print('------------------------------------')
 for j in range(len(times)):
 	if j==round(len(DATA)*0.05):print(5,"%")
+	if j==round(len(DATA)*0.25):print(25,"%")
 	if j==round(len(DATA)*0.5):print(50,"%")
 	if j==round(len(DATA)*0.8):print(80,"%")
+	if j==len(DATA)-1:print(100,"%")
 	DATAj=DATA[j]
 	times[j]=DATAj[0]
-	PHA[j]=DATAj[7]
+	PHA[j]=DATAj[PHA_column]
 
 hdu = fits.PrimaryHDU(PHA)
 hdul = fits.HDUList([hdu])

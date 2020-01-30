@@ -11,14 +11,7 @@ from stingray.pulse.search import plot_profile
 from binary_cor import *
 from scipy.optimize import curve_fit
 
-name_file=["nu30102041002A01_cl_src_bary.evt","nu30102041002B01_cl_src_bary.evt"] #name of the file with the data
-
-hdulist = fits.open(name_file[0])
-hdulist.info()
-header = hdulist[2].header
-print('...')
-#print(header)
-print('...')
+name_file=["nu30102041002A01_cl_src_bary.evt","nu30102041002B01_cl_src_bary.evt"] #name of the files with the data
 
 #datos (en principio)
 asini=26.33 #[It-sec]
@@ -27,51 +20,30 @@ ecc=0.0
 omega_d=0.0 #[degrees]
 T0=51110.866 #[MJD]
 
-mpl.rcParams['figure.figsize'] = (10, 6)
-def sinusoid(times, frequency, baseline, amplitude, phase):
-    return baseline + amplitude * np.sin(2 * np.pi * (frequency * times + phase))
-
 period = 13.5
 
 bin_time = 0.01
 
 nbin = 40
 
-hdulist = fits.open(name_file[0])
-hdulist.info()
-header = hdulist[0].header
+times=np.array([])
 
-#lo anterior
-ev =EventList()
-ev = ev.read(name_file[0], 'fits')
-times=ev.time
-
-#######################################
-if len(name_file)>1:
-	hdulist = fits.open(name_file[1])
-	hdulist.info()
-	header = hdulist[2].header
-
-	hdulist = fits.open(name_file[1])
+for j in range(len(name_file)):
+	hdulist = fits.open(name_file[j])
 	hdulist.info()
 	header = hdulist[0].header
 
 	#lo anterior
 	ev =EventList()	
-	ev = ev.read(name_file[1], 'fits')
-
-	times2=ev.time
+	ev = ev.read(name_file[j], 'fits')
+	times=np.append(times,ev.time)
 #######################################
-times=np.append(times,times2)
 
-PI=ev.pi
-CT=ev.ncounts
-Tstart=hdulist['GTI'].data['START']
-Tstop=hdulist['GTI'].data['STOP']
+
 TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 hdu = fits.PrimaryHDU(TIME)
 hdul = fits.HDUList([hdu])
-hdul.writeto('nustar.fits')
+hdul.writeto('nustar.fits',overwrite=True)
 
 # We will search for pulsations over a range of frequencies around the known pulsation period.
 obs_length = times[len(times)-1]-times[0]

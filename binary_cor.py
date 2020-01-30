@@ -1,7 +1,12 @@
 from __future__ import print_function, division
-from PyAstronomy import pyasl
 import numpy as np
-
+try:
+	from PyAstronomy import pyasl
+	PyAstronomy_ok=1
+except:
+	PyAstronomy_ok=0
+	print('PyAstronomy not installed, the process will be slower')
+	
 def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10**-6,maxiter=20):
 	
 	#%\function{BinaryCor}
@@ -81,45 +86,80 @@ def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10
 
 	#start with number of iterations = zero
 	numiter=0
-	ks = pyasl.MarkleyKESolver() #if you have not PyAstronomy delete this command and use the indications show below
-	contada=0
-	while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
-		tper = (t-t0)/porb
-		m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
-		m=np.array(m)
-		eanom=np.array([1.0]*len(t))
-		#eanom = KeplerEquation(m,ecc)  #if you have not PyAstronomy use this command
-		#eanom = KeplerEquation1(m,ecc) #if you have not PyAstronomy use this command (better solution)
-		for j in range(0,len(t)):       #if you have not PyAstronomy delete this loop
-			eanom[j]=ks.getE(m[j], ecc)       #Mean Anomaly
-		sin_e = np.sin(eanom)
-		cos_e = np.cos(eanom)
-		z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
-		f = (t-time)+z                               
-		df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
-		cor =f/(1.0+df)
-		t = t-cor
-		numiter=numiter+1
-		contada=contada+1
-		print(100*contada/20,"%")
-		if numiter >= maxiter:
-			print("Exceeded maxiter iterations and did not reach convergence");
-			break
+	if PyAstronomy_ok==1: #if you have PyAstronomy
+		ks = pyasl.MarkleyKESolver()
+		contada=0
+		while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
+			tper = (t-t0)/porb
+			m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
+			m=np.array(m)
+			eanom=np.array([1.0]*len(t))
+			for j in range(0,len(t)):       #if you have PyAstronomy
+				eanom[j]=ks.getE(m[j], ecc)       #Mean Anomaly
+			sin_e = np.sin(eanom)
+			cos_e = np.cos(eanom)
+			z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
+			f = (t-time)+z                               
+			df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
+			cor =f/(1.0+df)
+			t = t-cor
+			numiter=numiter+1
+			contada=contada+1
+			print(100*contada/20,"%")
+			if numiter >= maxiter:
+				print("Exceeded maxiter iterations and did not reach convergence");
+				break
+			
+	if PyAstronomy_ok==0:		
+		contada=0
+		while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
+			tper = (t-t0)/porb
+			m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
+			m=np.array(m)
+			eanom=np.array([1.0]*len(t))
+			#eanom = KeplerEquation(m,ecc)  #if you have not PyAstronomy 
+			eanom = KeplerEquation1(m,ecc)  use this command for a better solution
+			sin_e = np.sin(eanom)
+			cos_e = np.cos(eanom)
+			z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
+			f = (t-time)+z                               
+			df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
+			cor =f/(1.0+df)
+			t = t-cor
+			numiter=numiter+1
+			contada=contada+1
+			print(100*contada/20,"%")
+			if numiter >= maxiter:
+				print("Exceeded maxiter iterations and did not reach convergence");
+				break
 	return(t)
 
-def KeplerEquation(m,ecc):
+def KeplerEquation(m,ecc):#http://astro.uni-tuebingen.de/software/idl/aitlib/astro/binarycor.html
 	m=np.array(m)
 	if ecc<0 :
 		print("error: eccentricity must be positive!")
 		return
 	if ecc>=1:
 		print("error: Orbit correction has only been implemented for circular and elliptic orbits")
+	print('etapa 1')
 	for j in range(0,len(m)):
-		
+		mod_m=m[j]/2/np.pi
+		m[j]=m[j]-2*np.pi*round(mod_m)
+		if j==3:print(len(m)) 
+		if j==round(len(m)*0.05):print(5,"%")
+		if j==round(len(m)*0.25):print(25,"%")
+		if j==round(len(m)*0.5):print(50,"%")
+		if j==round(len(m)*0.8):print(80,"%")
+		if j==len(m)-1:print(100,"%")
 		while m[j]>np.pi:
+			print(m[j])
 			m[j]=m[j]-2*np.pi
+			print(m[j])
+			
 		while m[j]<-np.pi:
+			print(m[j])
 			m[j]=m[j]+2*np.pi
+			print(m[j])
 	if ecc==0:
 		E=m
 	aux=4.0*ecc+0.5
@@ -176,7 +216,6 @@ def KeplerEquation1(m,ecc):
 	if ecc>=1:
 		print("error: Orbit correction has only been implemented for circular and elliptic orbits")
 	for j in range(0,len(m)):
-		
 		while m[j]>np.pi:
 			m[j]=m[j]-2*np.pi
 		while m[j]<-np.pi:
@@ -226,25 +265,21 @@ def KeplerEquation1(m,ecc):
 		while eccanom[j]<2.0*np.pi:
 			eccanom[j]=eccanom[j]+2.0*np.pi
 	##better solution
-	CONT=2
+	CONT=True
 	thresh=10**-5
 	for j in range(0,len(m)):
 		if m[j]<0:
 			m[j]=m[j]+2.0*np.pi
 	diff=eccanom-np.sin(eccanom)-m
-	contador=0
-	for j in range(0,len(m)):
-		if abs(diff[j])>10**-10:
-			contador=contador+1
 	for j in range(0,len(m)):
 		if abs(diff[j])>10**-10:
 			I=diff[j]
-			while CONT>1:
+			while CONT==True:
 				fe=eccanom[j]-ecc*np.sin(eccanom[j])-m[j]
 				fs=1.0-ecc*np.cos(eccanom[j])
 				oldval=eccanom[j]
 				eccanom[j]=oldval-fe/fs
-				if abs(oldval-eccanom[j])<thresh :CONT=0
+				if abs(oldval-eccanom[j])<thresh :CONT=False
 			while eccanom[j]>= np.pi:eccanom[j]=eccanom[j]-2.0*np.pi
 			while eccanom[j]< np.pi:eccanom[j]=eccanom[j]+2.0*np.pi
 			
