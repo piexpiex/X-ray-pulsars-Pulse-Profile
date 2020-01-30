@@ -10,7 +10,7 @@ These programs include:
 
 -Represent the pulse profiles in differents energy ranges
 
--Adjusment of pulse profiles by five sinusoids
+-Adjusment of pulse profiles by five sinusoids (the number of sinusoids is a initial parameter that is possible to change)
 
 # binary_cor.py
 
@@ -20,6 +20,8 @@ It is recommended to have installed PyAstronomy for faster run of the program.
 
 #  XMM_data_selector.py / NuSTAR_data_selector.py
 
-Selects the time of the data fits and return fits files with the corrected time values
+Selects the time of the data fits and return fits files with the corrected time values.
 
 XMM_data_selector also selects the XMM Newton PI channel values and return a fits file with this for a faster use by another programs.
+
+This programs plot the Z^{2} and the EF statistics variation with a range of frequencies to search the correct frequency.
