@@ -36,4 +36,4 @@ This programs plot the Z<sup>2</sup> and the EF statistics variation with a rang
 
 Chooses photons by energy ranges and plot their pulse profiles
 
-Realices an adjustment of the pulse profiles with sinusoids <sum>
+Realices an adjustment of the pulse profiles with sinusoids $\sum$
