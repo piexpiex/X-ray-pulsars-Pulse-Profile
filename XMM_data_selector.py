@@ -1,16 +1,12 @@
 import numpy as np
-from stingray.events import EventList
-from stingray.lightcurve import Lightcurve
 from matplotlib import pyplot as plt
 from astropy.io import fits
-import seaborn as sb
-import matplotlib as mpl
+from stingray.events import EventList
+from stingray.lightcurve import Lightcurve
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
 from binary_cor import *
-from scipy.optimize import curve_fit
-from math import isnan
 
 name_file="src_sd.events"
 
@@ -40,7 +36,7 @@ times=np.zeros((len(DATA)))
 PHA=np.zeros((len(DATA)))
 nmn=np.where(np.array(DATA.columns.names)=='PHA')
 PHA_column=nmn[0][0]
-print(PHA_column)
+print('PHA is at the column number', PHA_column)
 
 print('------------------------------------')
 for j in range(len(times)):
@@ -56,10 +52,6 @@ for j in range(len(times)):
 hdu = fits.PrimaryHDU(PHA)
 hdul = fits.HDUList([hdu])
 hdul.writeto('XMMpha.fits',overwrite=True)
-
-for j in range(len(times)):
-	if isnan(times[j])==True:
-		print('DANGER --> lecture error at line',j,'of the file')
 
 TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 hdu = fits.PrimaryHDU(TIME)
@@ -91,6 +83,25 @@ plt.show()
 # We will search for pulsations over a range of frequencies around the known pulsation period.
 nharm = 1
 freq, zstat = z_n_search(times, frequencies, nbin=nbin, nharm=nharm)
+
+pulse_frequency=freq[efstat.index(max(efstat))]
+duplication=1
+while max(efstat)<200:
+	pulse_frequency_value=input('the value of the pulse frequency is small, do you want to search a better value (Y/N)')
+	if pulse_frequency_value=='Y' or pulse_frequency_value=='y':
+		duplication=duplication*2
+		obs_length = times[len(times)-1]-times[0]
+		df_min = 1/obs_length
+		oversampling=15
+		df = df_min / oversampling
+		frequencies = np.arange(1/period - 200*duplication * df, 1/period + 200*duplication * df, df)
+		freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
+		pulse_frequency=freq[efstat.index(max(efstat))]
+	elif pulse_frequency_value=='N' or pulse_frequency_value=='n':
+		break
+	else:
+		pulse_frequency_value=input('please Y or N')
+print('pulse frequency',pulse_frequency)
 
 # ---- PLOTTING --------
 plt.figure()

@@ -1,30 +1,25 @@
 import numpy as np
-from stingray.events import EventList
-from stingray.lightcurve import Lightcurve
 from matplotlib import pyplot as plt
 from astropy.io import fits
-import seaborn as sb
-import matplotlib as mpl
-from stingray.pulse.search import epoch_folding_search, z_n_search
-from stingray.pulse.pulsar import fold_events
-from stingray.pulse.search import plot_profile
-from fpropias import *
-from scipy.optimize import curve_fit
-from astropy.modeling import fitting,models
 
+source='LMC X-4'
+period=13.5
 
 #leer los parametros
 #XMM
-
-hdulist = fits.open("Parameters_XMM.fits")
-XMM_parameters = hdulist[0].data
-print(len(XMM_parameters))
+try:
+	hdulist = fits.open("Parameters_XMM.fits")
+	XMM_parameters = hdulist[0].data
+	print(len(XMM_parameters))
+except:
+	XMM_parameters=np.zeros((60))
 #NUSTAR
-
-hdulist = fits.open("Parameters_NUSTAR.fits")
-NuSTAR_parameters = hdulist[0].data
-print(len(NuSTAR_parameters))
-
+try:
+	hdulist = fits.open("Parameters_NUSTAR.fits")
+	NuSTAR_parameters = hdulist[0].data
+	print(len(NuSTAR_parameters))
+except:
+	NuSTAR_parameters=np.zeros((80))
 Parameters=np.append(NuSTAR_parameters,XMM_parameters)
 
 
@@ -98,7 +93,7 @@ print(A5)
 
 
 plt.subplot(3,2,1)
-plt.suptitle('Source:LMC X-4  \n Sinusoids amplitudes \n Pulse period 13.5s',fontsize=12)
+plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
 
 for j in range(len(A1)):
 	if j==0:
@@ -126,6 +121,7 @@ for j in range(len(A1)):
 		plt.errorbar((E[2*j+1]+E[2*j])/2,A2[j],yerr=DA2[j]**0.5,fmt='bo',markersize=0.5)
 plt.xscale('log')
 plt.legend(loc=2)
+plt.ylim(0,max(A2)+1)
 plt.subplot(3,2,3)
 for j in range(len(A1)):
 	if j==0:
@@ -139,6 +135,7 @@ for j in range(len(A1)):
 		plt.errorbar((E[2*j+1]+E[2*j])/2,A3[j],yerr=DA3[j]**0.5,fmt='bo',markersize=0.5)
 plt.xscale('log')
 plt.legend(loc=0)
+plt.ylim(0,max(A3)+1)
 plt.subplot(3,2,4)
 for j in range(len(A1)):
 	if j==0:
@@ -152,7 +149,7 @@ for j in range(len(A1)):
 		plt.errorbar((E[2*j+1]+E[2*j])/2,A4[j],yerr=DA4[j]**0.5,fmt='bo',markersize=0.5)
 plt.xscale('log')
 plt.legend(loc=0)
-
+plt.ylim(0,max(A4)+1)
 plt.subplot(3,2,5)
 for j in range(len(A1)):
 	if j==0:
@@ -165,15 +162,15 @@ for j in range(len(A1)):
 		plt.plot(E[2*j:2*j+2],[A5[j],A5[j]], 'b')
 		plt.errorbar((E[2*j+1]+E[2*j])/2,A5[j],yerr=DA5[j]**0.5,fmt='bo',markersize=0.5)
 plt.xscale('log')
-plt.legend(loc=0)
-
+plt.legend(loc=2)
+plt.ylim(0,max(A5)+1)
 plt.show()
 #################
 #####phase#######
 #################
 
 plt.subplot(3,2,1)
-plt.suptitle('Source:LMC X-4  \n Sinusoids phase gaps \n Pulse period 13.5s',fontsize=12)
+plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
 for j in range(len(A1)):
 	if j==0:
 		plt.plot(E[2*j:2*j+2],[F1[j],F1[j]], 'k',label='F1')

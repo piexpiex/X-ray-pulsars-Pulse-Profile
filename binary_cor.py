@@ -117,8 +117,8 @@ def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10
 			m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
 			m=np.array(m)
 			eanom=np.array([1.0]*len(t))
-			#eanom = KeplerEquation(m,ecc)  #if you have not PyAstronomy 
-			eanom = KeplerEquation1(m,ecc)  use this command for a better solution
+			#eanom = KeplerEquation(m,ecc)  #use this command for a faster solution
+			eanom = KeplerEquation1(m,ecc)  #use this command for a better solution
 			sin_e = np.sin(eanom)
 			cos_e = np.cos(eanom)
 			z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)

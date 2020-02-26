@@ -1,15 +1,12 @@
 import numpy as np
-from stingray.events import EventList
-from stingray.lightcurve import Lightcurve
 from matplotlib import pyplot as plt
 from astropy.io import fits
-import seaborn as sb
-import matplotlib as mpl
+from stingray.events import EventList
+from stingray.lightcurve import Lightcurve
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
 from binary_cor import *
-from scipy.optimize import curve_fit
 
 name_file=["nu30102041002A01_cl_src_bary.evt","nu30102041002B01_cl_src_bary.evt"] #name of the files with the data
 
@@ -53,6 +50,25 @@ df = df_min / oversampling
 frequencies = np.arange(1/period - 200 * df, 1/period + 200 * df, df)
 
 freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
+
+pulse_frequency=freq[efstat.index(max(efstat))]
+duplication=1
+while max(efstat)<200:
+	pulse_frequency_value=input('the value of the pulse frequency is small, do you want to search a better value (Y/N)')
+	if pulse_frequency_value=='Y' or pulse_frequency_value=='y':
+		duplication=duplication*2
+		obs_length = times[len(times)-1]-times[0]
+		df_min = 1/obs_length
+		oversampling=15
+		df = df_min / oversampling
+		frequencies = np.arange(1/period - 200*duplication * df, 1/period + 200*duplication * df, df)
+		freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
+		pulse_frequency=freq[efstat.index(max(efstat))]
+	elif pulse_frequency_value=='N' or pulse_frequency_value=='n':
+		break
+	else:
+		pulse_frequency_value=input('please Y or N')
+print('pulse frequency',pulse_frequency)
 
 # ---- PLOTTING --------
 plt.figure()
