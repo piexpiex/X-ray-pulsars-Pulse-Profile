@@ -36,7 +36,10 @@ This programs plot the Z<sup>2</sup> and the EF statistics variation with a rang
 
 ##  XMM_pulse_profile.py / NuSTAR_pulse_profile.py
 
-Chooses photons by energy ranges and plot their pulse profiles using pulse_profile.py
+Chooses photons by energy ranges and plot their pulse profiles using pulse_profile.py.
 
-Makes an adjustment of the pulse profiles with sinusoids
+Makes an adjustment of the pulse profiles with sinusoids and return a fits file with their parameters and uncertainties.
 
+##  parameters.py
+
+Represents the variation of the parameters with the energy.
