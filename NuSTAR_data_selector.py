@@ -17,7 +17,7 @@ ecc=0.0
 omega_d=0.0 #[degrees]
 T0=51110.866 #[MJD]
 
-period = 13.5
+period = 13,5
 
 bin_time = 0.01
 
@@ -51,19 +51,15 @@ frequencies = np.arange(1/period - 200 * df, 1/period + 200 * df, df)
 
 freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
 
-pulse_frequency=freq[efstat.index(max(efstat))]
+pulse_frequency=freq[np.where(efstat==max(efstat))[0][0]]
 duplication=1
 while max(efstat)<200:
 	pulse_frequency_value=input('the value of the pulse frequency is small, do you want to search a better value (Y/N)')
 	if pulse_frequency_value=='Y' or pulse_frequency_value=='y':
 		duplication=duplication*2
-		obs_length = times[len(times)-1]-times[0]
-		df_min = 1/obs_length
-		oversampling=15
-		df = df_min / oversampling
-		frequencies = np.arange(1/period - 200*duplication * df, 1/period + 200*duplication * df, df)
+		frequencies = np.append(np.arange(1/period - 200*duplication * df,1/period - 200*duplication/2 * df,df), np.arange(1/period + 200*duplication/2 * df,1/period + 200*duplication * df, df))
 		freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
-		pulse_frequency=freq[efstat.index(max(efstat))]
+		pulse_frequency=freq[np.where(efstat==max(efstat))[0][0]]
 	elif pulse_frequency_value=='N' or pulse_frequency_value=='n':
 		break
 	else:
