@@ -34,6 +34,8 @@ XMM_data_selector also selects the XMM-Newton PI channel values and return a fit
 
 This programs plot the Z<sup>2</sup> and the EF statistics variation with a range of frequencies to search the correct frequency.
 
+If the highest best frequency found has a small statistic values, the program ask if you want to search a better frequency by doubling the frequency range (this aspect depends on how exact is the inserted period value).
+
 ##  XMM_pulse_profile.py / NuSTAR_pulse_profile.py
 
 Chooses photons by energy ranges and plot their pulse profiles using pulse_profile.py.
