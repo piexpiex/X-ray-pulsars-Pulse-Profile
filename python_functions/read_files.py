@@ -26,9 +26,9 @@ def lister(A):
 def read_files():
 	
 	try:
-		CMD = open('../run.sh')
+		CMD = open('run.sh')
 	except:
-		CMD = open('../run.cmd')
+		CMD = open('run.cmd')
 	lista=[]
 	run_file=[]
 
@@ -78,8 +78,6 @@ def read_files():
 			T0=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:6]=='period':
 			period=float(delete_space(run_file[j][1]))
-		elif run_file[j][0][0:8]=='bin_time':
-			bin_time=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:4]=='nbin':
 			nbin=int(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:10]=='nsinusoids':
@@ -100,18 +98,20 @@ def read_files():
 				Z_2_check='Y'
 			else:
 				Z_2_check='N'
-	
-	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,bin_time,nbin,nsinusoids,overwrite,Z_2_check)
+		elif run_file[j][0][0:13]=='energy_ranges':
+			energy_ranges=lister(delete_space(run_file[j][1]))
+	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
+	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check)
 
 def write_files(word,value):
 	
 	file_to_write=[]
 	
 	try:
-		CMD = open('../run.sh')
+		CMD = open('run.sh')
 		key=1
 	except:
-		CMD = open('../run.cmd')
+		CMD = open('run.cmd')
 		key=2
 	lista=[]
 	run_file=[]
@@ -131,9 +131,9 @@ def write_files(word,value):
 			er=0 #CMD.write(linea)
 		file_to_write.append([linea])
 	if key==1:
-		CMD2 = open('../run.sh','w')
+		CMD2 = open('run.sh','w')
 	if key==2:
-		CMD2 = open('../run.cmd','w')
+		CMD2 = open('run.cmd','w')
 	for j in range(len(file_to_write)):
 		
 		CMD2.write(file_to_write[j][0])

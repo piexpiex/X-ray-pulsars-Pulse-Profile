@@ -2,12 +2,13 @@ import numpy as np
 from matplotlib import pyplot as plt
 from astropy.io import fits
 from stingray.events import EventList
-from stingray.lightcurve import Lightcurve
+#from stingray.lightcurve import Lightcurve
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
 from binary_cor import *
 from read_files import *
+import os
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -24,8 +25,6 @@ T0=READ[7] #[MJD]
 
 period = READ[8]
 
-bin_time = READ[11]
-
 nbin = READ[12]
 overwrite=READ[14]
 Z_2_check=READ[15]
@@ -34,7 +33,7 @@ key_overwrite=0
 
 if overwrite=='n' and READ[9]!=0:
 	try:
-		fits.open('../fits_folder/nustar_times.fits')
+		fits.open('fits_folder/nustar_times.fits')
 		key_overwrite=1
 	except:
 		print('NuSTAR files not found')
@@ -45,8 +44,8 @@ if key_overwrite==1:
 	exit()
 
 try:
-	os.mkdir('../fits_folder')
-	os.mkdir('../figures_folder')
+	os.mkdir('fits_folder')
+	os.mkdir('figures_folder')
 	print('making directories')
 	print('starting the analysis')
 except:
@@ -56,13 +55,13 @@ times=np.array([])
 
 for j in range(len(name_file)):
 	print('file',j+1,'of',len(name_file))
-	hdulist = fits.open('../'+name_file[j])
+	hdulist = fits.open(name_file[j])
 	hdulist.info()
 	header = hdulist[0].header
 
 	#lo anterior
 	ev =EventList()	
-	ev = ev.read('../'+name_file[j], 'fits')
+	ev = ev.read(name_file[j], 'fits')
 	times=np.append(times,ev.time)
 #######################################
 
@@ -70,7 +69,7 @@ print('Correction of the binary sistem delay')
 TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 hdu = fits.PrimaryHDU(TIME)
 hdul = fits.HDUList([hdu])
-hdul.writeto('../fits_folder/nustar_times.fits',overwrite=True)
+hdul.writeto('fits_folder/nustar_times.fits',overwrite=True)
 
 times=TIME
 # We will search for pulsations over a range of frequencies around the known pulsation period.
@@ -104,7 +103,7 @@ plt.axhline(nbin - 1, ls='--', lw=3, color='k', label='n - 1')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('EF Statistics')
 _ = plt.legend()
-plt.savefig("../figures_folder/NuSTAR_pulse_frequency_search.pdf")
+plt.savefig("figures_folder/NuSTAR_pulse_frequency_search.pdf")
 
 if Z_2_check=='N':
 	exit()
@@ -131,4 +130,4 @@ plt.ylabel('Statistics - d.o.f. (Zoom)')
 
 plt.ylim([-15, 15])
 _ = plt.xlim([frequencies[0], frequencies[-1]])
-plt.savefig("../figures_folder/NuSTAR_pulse_frequency_search_check.pdf")
+plt.savefig("figures_folder/NuSTAR_pulse_frequency_search_check.pdf")

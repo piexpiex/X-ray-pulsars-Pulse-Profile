@@ -1,16 +1,10 @@
 import numpy as np
-from matplotlib import pyplot as plt
-from astropy.io import fits
 from astropy.modeling import fitting,models
-from stingray.events import EventList
-from stingray.lightcurve import Lightcurve
-from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
-from stingray.pulse.search import plot_profile
 
 class pulse_profile():
 	times=''
-	phase_profile=''
+	pulse_frequency=''
 	nbin=''
 	T_star_stop=''
 	ph=''
@@ -18,10 +12,9 @@ class pulse_profile():
 	profilenorm='' 
 	profile_err = ''
 	def profile(self):
-		ph, profile, profile_err = fold_events(self.times, self.phase_profile, nbin=self.nbin,gtis=self.T_star_stop)
+		ph, profile, profile_err = fold_events(self.times, self.pulse_frequency, nbin=self.nbin,gtis=self.T_star_stop)
 		return(ph, profile, profile_err)
 	def profile_norm(self):
-		#ph, profile, profile_err = fold_events(self.times, self.phase_profile, nbin=self.nbin,gtis=self.T_star_stop)
 		ph=self.ph
 		profile=self.profile
 		profile_err=self.profile_err
@@ -50,11 +43,9 @@ class pulse_profile():
 		finit = models.Sine1D(frequency=1)
 		for j in range(n-1):
 			finit=finit +models.Sine1D(frequency=j+2)
-		finit[0].frequency.fixed=True
-		finit[1].frequency.fixed=True
-		finit[2].frequency.fixed=True
-		finit[3].frequency.fixed=True
-		finit[4].frequency.fixed=True
+		for j in range(n):
+			finit[j].frequency.fixed=True
+			
 		ph2=np.linspace(0,2,200)
 		ffit = fitter(finit, self.ph,self.profilenorm, weights = 1/self.profile_err)
 		
@@ -94,5 +85,6 @@ class pulse_profile():
 		
 		for j in range(2*n):
 			Sigma[j]=(S*np.linalg.inv(C_jk)[j][j]/(self.nbin-n))**0.5
-		
-		return(ph2,ffit,A,F,Sigma)
+		Sigma_A=Sigma[0:5]
+		Sigma_F=Sigma[5:10]
+		return(ph2,ffit,A,F,Sigma_A,Sigma_F)
