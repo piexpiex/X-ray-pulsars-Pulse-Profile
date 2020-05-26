@@ -1,12 +1,12 @@
 # X-ray-pulsars-Pulse-Profile
 
-Programs used to obtain pulse profiles of X-ray pulsar with NuSTAR and XMM-Newton data.
+Program composed by Python and Bash scripts used to obtain pulse profiles of a X-ray pulsar with NuSTAR and XMM-Newton data.
 
 These programs include:
 
 -Select data from Nustar or XMM-Newton fits files
 
--Search frequency of the pulsar
+-Search pulse frequency of the pulsar
 
 -Represent the pulse profiles in differents energy ranges
 
@@ -14,19 +14,28 @@ These programs include:
 
 -Represent the dependence of the sinusoids parameters with the energy
 
-It is necesary to install the *[Stingray][1]* Python package.
+## Requierements
+
+It is necesary to install *[Stingray][1]* and *[Astropy][2]* Python packages.
 
 [1]: https://stingray.readthedocs.io/en/latest/
+[2]: https://www.astropy.org/
 
-## binary_cor.py
+## Bash script
 
-Corrects the time values due to the binary orbit delay.
+run.sh --> you can write the information of the source (ephemeris, name, etc) and the working parameters, later you can run this file in terminal with the command sh run.sh and execute the program.
 
-## pulse_profile.py
+## Python scripts
 
-Calculate the pulse profile and perform the fit by sinusoids.
+binary_cor.py --> Corrects the time values due to the binary orbit delay.
 
-##  XMM_data_selector.py / NuSTAR_data_selector.py
+pulse_profile.py --> Define the pulse_profiles class to calculate each pulse profile and perform the fit by sinusoids.
+
+read_files.py --> functions to read and write the information of run.sh.
+
+MERGER.py --> Merge the pdf plots in only one pdf.
+
+###  XMM_data_selector.py / NuSTAR_data_selector.py
 
 Selects the time of the data fits and return fits files with the corrected time values using binary_cor.py.
 
@@ -36,12 +45,12 @@ This programs plot the Z<sup>2</sup> and the EF statistics variation with a rang
 
 If the highest best frequency found has a small statistic values, the program ask if you want to search a better frequency by doubling the frequency range (this aspect depends on how exact is the inserted period value).
 
-##  XMM_pulse_profile.py / NuSTAR_pulse_profile.py
+###  XMM_pulse_profile.py / NuSTAR_pulse_profile.py
 
 Chooses photons by energy ranges and plot their pulse profiles using pulse_profile.py.
 
 Makes an adjustment of the pulse profiles with sinusoids and return a fits file with their parameters and uncertainties.
 
-##  parameters.py
+##  energy_evolution.py
 
-Represents the variation of the parameters with the energy.
+Represents the variation of the fourier parameters with the energy.
