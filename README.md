@@ -23,6 +23,8 @@ It is necesary to install *[Stingray][1]* and *[Astropy][2]* Python packages.
 [1]: https://stingray.readthedocs.io/en/latest/
 [2]: https://www.astropy.org/
 
+If you want to merge the pdfs you should also have PyPDF2 python library to be able to use MERGER.py script.
+
 ## Bash script
 
 run.sh --> you can write the information of the source (ephemeris, name, etc) and the working parameters, later you can run this file in terminal with the command sh run.sh and execute the program.
@@ -35,7 +37,7 @@ pulse_profile.py --> Define the pulse_profiles class to calculate each pulse pro
 
 read_files.py --> functions to read and write the information of run.sh.
 
-MERGER.py --> Merge the pdf plots in only one summary pdf.
+MERGER.py --> Merge the pdf plots in only one summary pdf (using PyPDF2).
 
 ###  XMM_data_selector.py / NuSTAR_data_selector.py
 
@@ -55,6 +57,42 @@ classifies photons by energy ranges and plot their pulse profiles using pulse_pr
 
 makes an adjustment of the pulse profiles with sinusoids and return a fits file with their parameters and uncertainties.
 
-##  energy_evolution.py
+###  energy_evolution.py
 
 represents the variation of the fourier parameters with the energy.
+
+## run.sh parameters
+
+run.sh script currently has 17 editable parameters, these are described below:
+
+NuSTAR_file=[NuSTAR_file_1.fits,NuSTAR_file_2.fits,...] --> name of the files with NuSTAR data in fits format write in square brackets
+XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-Newton data in fits format write in square brackets
+
+source= X-ray pulsar name # name of the analized source
+
+asini= xx --> projected semi-major axis in It-sec
+Porb= xx --> orbital period at the epoch in days
+ecc= xx -->  eccentricity
+omega_d= xx --> longitude of periastron in degrees
+T0= xx --> epoch for mean longitude of 0 degrees in MJD system
+
+period = xx --> pulsar aproximate spin period
+
+pulse_frequency_NuSTAR= 0 --> pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
+pulse_frequency_XMM= 0 --> pulsar frequency found in XMM-Newton observations (0 to find it or insert the value if known)
+
+energy_ranges=[0.5,xx,78] --> energy ranges in KeV (XMM_Newton --> 0.5-12 & NuSTAR --> 3-78) in square brackets
+
+nbin = xx --> number of pulse profile bins
+
+nsinusoids= xx --> number of sinusoids for the Fourier series fit
+
+overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files
+
+Z_2_check= xx --> (Y/N) [default no] command to check the pulse frequency with Z^2 statistic (slows down the analysis)
+
+frequency_bin= xx --> width  of frequency bins in units of 1/(interval time)
+
+frequency_range= xx --> number of frequency bins with the center in 1/period
+
+
