@@ -55,7 +55,7 @@ If the highest best frequency found has a small statistic values, the program as
 
 ###  XMM_pulse_profile.py / NuSTAR_pulse_profile.py
 
-celect photons of the standar good time intervals (STDGTI)
+colects photons of the standar good time intervals (STDGTI)
 
 classifies photons by energy ranges and plot their pulse profiles using pulse_profile.py.
 
