@@ -23,7 +23,9 @@ It is necesary to install *[Stingray][1]* and *[Astropy][2]* Python packages.
 [1]: https://stingray.readthedocs.io/en/latest/
 [2]: https://www.astropy.org/
 
-If you want to merge the pdfs you should also have PyPDF2 python library to be able to use MERGER.py script.
+If you want to merge the pdfs you should also have *[PyPDF2][3]* python library to be able to use MERGER.py script.
+
+[3]: https://pythonhosted.org/PyPDF2/
 
 ## Bash script
 
@@ -31,7 +33,9 @@ run.sh --> you can write the information of the source (ephemeris, name, etc) an
 
 ## Python scripts
 
-binary_cor.py --> Corrects the time values due to the binary orbit delay.
+binary_cor.py --> Corrects the time values due to the binary orbit delay (translated functions of *[IAAT][4]*).
+
+[4]: http://astro.uni-tuebingen.de/software/idl/aitlib/astro/
 
 pulse_profile.py --> Define the pulse_profiles class to calculate each pulse profile and perform the fit by sinusoids.
 
@@ -68,7 +72,7 @@ run.sh script currently has 17 editable parameters, these are described below:
 NuSTAR_file=[NuSTAR_file_1.fits,NuSTAR_file_2.fits,...] --> name of the files with NuSTAR data in fits format write in square brackets
 XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-Newton data in fits format write in square brackets
 
-source= X-ray pulsar name # name of the analized source
+source= X-ray pulsar name --> name of the analized source
 
 asini= xx --> projected semi-major axis in It-sec
 Porb= xx --> orbital period at the epoch in days
