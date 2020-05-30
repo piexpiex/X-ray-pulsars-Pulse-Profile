@@ -2,40 +2,50 @@
 ### Files and source name ###
 #############################
 
-NuSTAR_file=[nu30202004002A01_cl_bary_src.evt,nu30202004002B01_cl_bary_src.evt] # name of the files with the data
-XMM_file= 0784570201_evt_bary_src.fits
-source= SMC X-1
+NuSTAR_file=[ ] # name of the files with NuSTAR data
+XMM_file= [ ] # name of the files with XMM-Newton data
+source= X-ray pulsar name #source name
 
 #################
 ### Ephemeris ###
 #################
 
-asini=53.4876   # [It-sec]
-Porb= 3.891923160   # [days]
-ecc=0.00089      # eccentricity
-omega_d=166   # [degrees]
-T0= 52846.688810  # [MJD]
+asini= xx   # [It-sec]
+Porb= xx   # [days]
+ecc= xx      # eccentricity
+omega_d= xx  # [degrees]
+T0= xx  # [MJD]
 
-period =0.69965 # pulsar aproximate spin period
+period = xx # pulsar aproximate spin period
 
-pulse_frequency_NuSTAR=1.4280694984937028 # pulsar frequency found in NuSTAR observations(0 to find it or insert the value if known) 
-pulse_frequency_XMM=1.4282544464305302 # pulsar frequency found in XMM observations (0 to find it or insert the value if known)
+pulse_frequency_NuSTAR= 0  # pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
+pulse_frequency_XMM= 0 # pulsar frequency found in XMM observations (0 to find it or insert the value if known)
 
 ##########################
 ### working parameters ###
 ##########################
 
-bin_time = 0.01
+energy_ranges=[xx,xx,xx] #energy ranges[KeV]
 
-nbin = 40
+nbin = 40 # number of pulse profile bins
 
-nsinusoids=5
+nsinusoids=5 # number of sinusoids for the Fourier series
 
-overwrite= n # (Y/N) [default yes] #overwrite the actual fits files
+overwrite= y # (Y/N) [default yes] #overwrite the actual fits files
 
 Z_2_check= n # (Y/N) [default no] #checking the pulse frequency with Z^2 statistic (slows down the analysis)
 
-######################
-### running python ###
-######################
+frequency_bin=1 # frequency bin width [in units of 1/interval_time]
 
+frequency_range=2000 # number of frequency bins [center in 1/period]
+
+##############################
+### running python scripts ###
+##############################
+
+python python_functions/XMM_data_selector.py
+python python_functions/NuSTAR_data_selector.py
+python python_functions/XMM_pulse_profile.py
+python python_functions/NuSTAR_pulse_profile.py
+python python_functions/energy_evolution.py
+python python_functions/MERGER.py
