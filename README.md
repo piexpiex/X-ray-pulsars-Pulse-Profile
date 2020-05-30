@@ -2,6 +2,8 @@
 
 Program composed by Python and Bash scripts used to obtain pulse profiles of a X-ray pulsar with NuSTAR and XMM-Newton data.
 
+To use it modify the run.sh parameters and use the command "sh run.sh"
+
 These programs include:
 
 -Select data from Nustar or XMM-Newton (EPIC-pn) fits files
@@ -69,9 +71,9 @@ represents the variation of the fourier parameters with the energy.
 
 run.sh script currently has 17 editable parameters, these are described below:
 
-NuSTAR_file=[NuSTAR_file_1.fits,NuSTAR_file_2.fits,...] --> name of the files with NuSTAR data in fits format write in square brackets
+NuSTAR_file=[NuSTAR_file_1.fits,NuSTAR_file_2.fits,...] --> name of the files with NuSTAR data in fits format write in square brackets (if you do not have NuSTAR data put "[ ]")
 
-XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-Newton data in fits format write in square brackets
+XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-Newton data in fits format write in square brackets (if you do not have XMM_Newton data put "[ ]")
 
 source= X-ray pulsar name --> name of the analized source
 
