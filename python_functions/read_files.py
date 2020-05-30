@@ -1,7 +1,11 @@
 def delete_space(A):
 	while A[0]==' ':
+		if len(A)==1:
+			break
 		A=A[1:len(A)]
 	while A[len(A)-1]==' ':
+		if len(A)==1:
+			break
 		A=A[0:len(A)-1]
 	return(A)
 def add_space(A):
@@ -86,6 +90,10 @@ def read_files():
 			pulse_frequency_XMM=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:22]=='pulse_frequency_NuSTAR':
 			pulse_frequency_NuSTAR=float(delete_space(run_file[j][1]))
+		elif run_file[j][0][0:13]=='frequency_bin':
+			frequency_bin=int(delete_space(run_file[j][1]))
+		elif run_file[j][0][0:15]=='frequency_range':
+			frequency_range=int(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:9]=='overwrite':
 			overwrite=delete_space(run_file[j][1])
 			if overwrite=='N' or overwrite=='n':
@@ -101,7 +109,7 @@ def read_files():
 		elif run_file[j][0][0:13]=='energy_ranges':
 			energy_ranges=lister(delete_space(run_file[j][1]))
 	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
-	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check)
+	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,frequency_bin,frequency_range)
 
 def write_files(word,value):
 	

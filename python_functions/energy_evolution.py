@@ -8,229 +8,111 @@ READ=read_files()
 source=READ[2]
 period = READ[8]
 
-#leer los parametros
-#XMM
+Energy_ranges = READ[11]
+
+Energy_ranges=np.array(Energy_ranges)
+Energy_ranges=Energy_ranges.astype(np.float)
+Energy_ranges=Energy_ranges[np.where((Energy_ranges>=0.5) & (Energy_ranges<=78))]
+
+nsinusoids=READ[13]
+
+#############################
+### read parameters files ###
+#############################
+
+#XMM-Newton
+
+key_XMM=1
 try:
-	hdulist = fits.open("Parameters_XMM.fits")
-	XMM_parameters = hdulist[0].data
-	print(len(XMM_parameters))
+	hdulist = fits.open("fits_folder/Parameters_XMM.fits")
+	XMM_parameters = hdulist['PARAMETERS'].data
 except:
-	XMM_parameters=np.zeros((60))
-#NUSTAR
+	print('no XMM-Newton data')
+	key_XMM=0
+
+#NuSTAR
+
+key_nustar=1
 try:
-	hdulist = fits.open("Parameters_NUSTAR.fits")
-	NuSTAR_parameters = hdulist[0].data
-	print(len(NuSTAR_parameters))
+	hdulist = fits.open("fits_folder/Parameters_NUSTAR.fits")
+	NuSTAR_parameters = hdulist['PARAMETERS'].data
 except:
-	NuSTAR_parameters=np.zeros((80))
-Parameters=np.append(NuSTAR_parameters,XMM_parameters)
+	print('no NuSTAR data')
+	key_nustar=0
+	
 
+########################################
+### Plot parameters energy evolution ###
+########################################
 
-A1=[]
-A2=[]
-A3=[]
-A4=[]
-A5=[]
-F1=[]
-F2=[]
-F3=[]
-F4=[]
-F5=[]
-DA1=[]
-DA2=[]
-DA3=[]
-DA4=[]
-DA5=[]
-DF1=[]
-DF2=[]
-DF3=[]
-DF4=[]
-DF5=[]
-E=[]
+# Amplitudes
 
-#energias
-
-#E=[3,4.5,4.5,6,6,9,9,12,12,15,15,18,18,27.6,27.6,78,0.5,2,2,3.5,3.5,4.5,4.5,6,6,9,9,12]
-E=[3,4.5,4.5,6,6,9,9,12,12,15,15,18,18,27.6,27.6,78,0.5,2,2,3,3,4.5,4.5,6,6,9,9,12]
-
-rangos=7
-for j in range(int(len(Parameters)/20)):
-	A1.append(Parameters[j*20])
-	A2.append(Parameters[j*20+1])
-	A3.append(Parameters[j*20+2])
-	A4.append(Parameters[j*20+3])
-	A5.append(Parameters[j*20+4])
-	F1.append(Parameters[j*20+5])
-	F2.append(Parameters[j*20+6])
-	F3.append(Parameters[j*20+7])
-	F4.append(Parameters[j*20+8])
-	F5.append(Parameters[j*20+9])
-	DA1.append(Parameters[j*20+10])
-	DA2.append(Parameters[j*20+11])
-	DA3.append(Parameters[j*20+12])
-	DA4.append(Parameters[j*20+13])
-	DA5.append(Parameters[j*20+14])
-	DF1.append(Parameters[j*20+15])
-	DF2.append(Parameters[j*20+16])
-	DF3.append(Parameters[j*20+17])
-	DF4.append(Parameters[j*20+18])
-	DF5.append(Parameters[j*20+19])
-
-print(A1)
-print(A2)
-print(A3)
-print(A4)
-print(A5)
-
-plt.figure(figsize=(22.0,7.0))
-plt.subplot(3,2,1)
-plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
 plt.subplots_adjust(left=0.06, bottom=0.05, right=0.94, top=None, wspace=None, hspace=0.35)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[A1[j],A1[j]], 'k',label='A1')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A1[j],yerr=DA1[j]**0.5,fmt='ko',markersize=0.5)
-	elif j<8:
-		plt.plot(E[2*j:2*j+2],[A1[j],A1[j]], 'k')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A1[j],yerr=DA1[j]**0.5,fmt='ko',markersize=0.5)
-	else:
-		print(E[2*j:2*j+2],[A1[j],A1[j]])
-		plt.plot(E[2*j:2*j+2],[A1[j],A1[j]], 'b')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A1[j],yerr=DA1[j]**0.5,fmt='bo',markersize=0.5)
-plt.xscale('log')
-plt.ylabel('Amplitude')
-plt.xlabel("Energy (KeV)")
-plt.legend(loc=0)
-plt.ylim(0,max(A1)+1)
-plt.subplot(3,2,2)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[A2[j],A2[j]], 'k',label='A2')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A2[j],yerr=DA2[j]**0.5,fmt='ko',markersize=0.5)
-	elif j<8:
-		plt.plot(E[2*j:2*j+2],[A2[j],A2[j]], 'k')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A2[j],yerr=DA2[j]**0.5,fmt='ko',markersize=0.5)
-	else:
-		plt.plot(E[2*j:2*j+2],[A2[j],A2[j]], 'b')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A2[j],yerr=DA2[j]**0.5,fmt='bo',markersize=0.5)
-plt.xscale('log')
-plt.ylabel('Amplitude')
-plt.xlabel("Energy (KeV)")
-plt.legend(loc=2)
-plt.ylim(0,max(A2)+1)
-plt.subplot(3,2,3)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[A3[j],A3[j]], 'k',label='A3')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A3[j],yerr=DA3[j]**0.5,fmt='ko',markersize=0.5)
-	elif j<8:
-		plt.plot(E[2*j:2*j+2],[A3[j],A3[j]], 'k')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A3[j],yerr=DA3[j]**0.5,fmt='ko',markersize=0.5)
-	else:
-		plt.plot(E[2*j:2*j+2],[A3[j],A3[j]], 'b')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A3[j],yerr=DA3[j]**0.5,fmt='bo',markersize=0.5)
-plt.xscale('log')
-plt.ylabel('Amplitude')
-plt.xlabel("Energy (KeV)")
-plt.legend(loc=0)
-plt.ylim(0,max(A3)+1)
-plt.subplot(3,2,4)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[A4[j],A4[j]], 'k',label='A4')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A4[j],yerr=DA4[j]**0.5,fmt='ko',markersize=0.5)
-	elif j<8:
-		plt.plot(E[2*j:2*j+2],[A4[j],A4[j]], 'k')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A4[j],yerr=DA4[j]**0.5,fmt='ko',markersize=0.5)
-	else:
-		plt.plot(E[2*j:2*j+2],[A4[j],A4[j]], 'b')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A4[j],yerr=DA4[j]**0.5,fmt='bo',markersize=0.5)
-plt.xscale('log')
-plt.ylabel('Amplitude')
-plt.xlabel("Energy (KeV)")
-plt.legend(loc=0)
-plt.ylim(0,max(A4)+1)
-plt.subplot(3,2,5)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[A5[j],A5[j]], 'k',label='A5')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A5[j],yerr=DA5[j]**0.5,fmt='ko',markersize=0.5)
-	elif j<8:
-		plt.plot(E[2*j:2*j+2],[A5[j],A5[j]], 'k')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A5[j],yerr=DA5[j]**0.5,fmt='ko',markersize=0.5)
-	else:
-		plt.plot(E[2*j:2*j+2],[A5[j],A5[j]], 'b')
-		plt.errorbar((E[2*j+1]+E[2*j])/2,A5[j],yerr=DA5[j]**0.5,fmt='bo',markersize=0.5)
-plt.xscale('log')
-plt.ylabel('Amplitude')
-plt.xlabel("Energy (KeV)")
-plt.legend()
-plt.ylim(0,max(A5)+1)
-plt.savefig("final.pdf")
-plt.show()
-#################
-#####phase#######
-#################
+plt.figure(figsize=(22.0,7.0))
 
-plt.subplot(3,2,1)
-plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[F1[j],F1[j]], 'k',label='F1')
-	elif j<4:
-		plt.plot(E[2*j:2*j+2],[F1[j],F1[j]], 'k')
-	else:
-		plt.plot(E[2*j:2*j+2],[F1[j],F1[j]], 'b')
-plt.xscale('log')
-plt.ylim(0,1)
-plt.legend(loc=2)
-plt.subplot(3,2,2)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[F2[j],F2[j]], 'k',label='F2')
-	elif j<4:
-		plt.plot(E[2*j:2*j+2],[F2[j],F2[j]], 'k')
-	else:
-		plt.plot(E[2*j:2*j+2],[F2[j],F2[j]], 'b')
-plt.xscale('log')
-plt.ylim(0,1)
-plt.legend(loc=2)
-plt.subplot(3,2,3)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[F3[j],F3[j]], 'k',label='F3')
-	elif j<4:
-		plt.plot(E[2*j:2*j+2],[F3[j],F3[j]], 'k')
-	else:
-		plt.plot(E[2*j:2*j+2],[F3[j],F3[j]], 'b')
-plt.xscale('log')
-plt.ylim(0,1)
-plt.legend(loc=2)
-plt.subplot(3,2,4)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[F4[j],F4[j]], 'k',label='F4')
-	elif j<4:
-		plt.plot(E[2*j:2*j+2],[F4[j],F4[j]], 'k')
-	else:
-		plt.plot(E[2*j:2*j+2],[F4[j],F4[j]], 'b')
-plt.xscale('log')
-plt.ylim(0,1)
-plt.legend(loc=2)
-plt.subplot(3,2,5)
-for j in range(len(A1)):
-	if j==0:
-		plt.plot(E[2*j:2*j+2],[F5[j],F5[j]], 'k',label='F5')
-	elif j<4:
-		plt.plot(E[2*j:2*j+2],[F5[j],F5[j]], 'k')
-	else:
-		plt.plot(E[2*j:2*j+2],[F5[j],F5[j]], 'b')
-plt.xscale('log')
-plt.ylim(0,1)
-plt.legend(loc=2)
-plt.show()
+for k in range(nsinusoids):
+	plt.subplot(round((nsinusoids+0.1)/2),2,k+1)
+	plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
+	max_value=0
+	#NuSTAR
+	if key_nustar==1:
+		for j in range(len(NuSTAR_parameters)):
+			if j==0:
+				plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][3+k*4],NuSTAR_parameters[j][3+k*4]], 'k',label='A'+str(k+1))
+				plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][3+k*4],yerr=NuSTAR_parameters[j][5+k*4]**0.5,fmt='ko',markersize=0.5)
+			else:
+				plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][3+k*4],NuSTAR_parameters[j][3+k*4]], 'k')
+				plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][3+k*4],yerr=NuSTAR_parameters[j][5+k*4]**0.5,fmt='ko',markersize=0.5)
+			if NuSTAR_parameters[j][3+k*4]>max_value:
+				max_value=NuSTAR_parameters[j][3+k*4]
+	#XMM-Newton
+	if key_XMM==1:
+		for j in range(len(XMM_parameters)):
+			if key_nustar==0 and j==0:
+				plt.plot([XMM_parameters[j][1],XMM_parameters[j][2]],[XMM_parameters[j][3+k*4],XMM_parameters[j][3+k*4]], 'b',label='A'+str(k+1))
+				plt.errorbar((XMM_parameters[j][1]+XMM_parameters[j][2])/2,XMM_parameters[j][3+k*4],yerr=XMM_parameters[j][5+k*4]**0.5,fmt='bo',markersize=0.5)
+			else:
+				plt.plot([XMM_parameters[j][1],XMM_parameters[j][2]],[XMM_parameters[j][3+k*4],XMM_parameters[j][3+k*4]], 'b')
+				plt.errorbar((XMM_parameters[j][1]+XMM_parameters[j][2])/2,XMM_parameters[j][3+k*4],yerr=XMM_parameters[j][5+k*4]**0.5,fmt='bo',markersize=0.5)
+			if XMM_parameters[j][3+k*4]>max_value:
+				max_value=XMM_parameters[j][3+k*4]
+	
+	plt.xscale('log')
+	plt.ylabel('Amplitude')
+	plt.xlabel("Energy (KeV)")
+	plt.ylim(0,max_value+1)
+	plt.legend()
 
 
+plt.savefig("figures_folder/amplitudes_energy_variation.pdf")
+
+# Initial phases
+plt.figure(figsize=(22.0,7.0))
+
+for k in range(nsinusoids):
+	plt.subplot(round((nsinusoids+0.1)/2),2,k+1)
+	plt.suptitle('Source:'+source+'  \n Sinusoids initial phases \n Pulse period '+str(period)+'s',fontsize=12)
+	max_value=0
+	#NuSTAR
+	
+	for j in range(len(NuSTAR_parameters)):
+		if j==0:
+			plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][4+k*4],NuSTAR_parameters[j][4+k*4]], 'k',label='F'+str(k+1))
+			plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][4+k*4],yerr=NuSTAR_parameters[j][6+k*4]**0.5,fmt='ko',markersize=0.5)
+		else:
+			plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][4+k*4],NuSTAR_parameters[j][4+k*4]], 'k')
+			plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][4+k*4],yerr=NuSTAR_parameters[j][6+k*4]**0.5,fmt='ko',markersize=0.5)
+	#XMM-Newton
+	
+	for j in range(len(XMM_parameters)):
+		plt.plot([XMM_parameters[j][1],XMM_parameters[j][2]],[XMM_parameters[j][4+k*4],XMM_parameters[j][4+k*4]], 'b')
+		plt.errorbar((XMM_parameters[j][1]+XMM_parameters[j][2])/2,XMM_parameters[j][4+k*4],yerr=XMM_parameters[j][6+k*4]**0.5,fmt='bo',markersize=0.5)
+	
+	plt.xscale('log')
+	plt.ylabel('Phase')
+	plt.xlabel("Energy (KeV)")
+	plt.ylim(0,1)
+	plt.legend()
 
 
-
+#plt.savefig("figures_folder/initial_phases_energy_variation.pdf")

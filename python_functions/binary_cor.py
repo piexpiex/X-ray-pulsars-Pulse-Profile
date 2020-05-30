@@ -1,52 +1,7 @@
-from __future__ import print_function, division
 import numpy as np
-try:
-	from PyAstronomy import pyasl
-	PyAstronomy_ok=1
-except:
-	PyAstronomy_ok=0
-	print('PyAstronomy not installed, the process will be slower')
-	
-def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10**-6,maxiter=20):
-	
-	#%\function{BinaryCor}
-	#%\synopsis{Removes the influence of the doublestar motion for circular or eliptical orbits.}
-	#%\usage{Array_Type t = BinaryCor(Array_Type OR Double_Type time), time in MJD}
-	#%\qualifiers{
-	#%\qualifier{asini}{: Projected semi-major axis [lt-secs], Mandatory}
-	#%\qualifier{porb}{: Orbital period at the epoch [days], Mandatory}
-	#%\qualifier{eccentricity}{: Eccentricity, (0<=e<1)}
-	#%\qualifier{omega}{: Longitude of periastron [degrees], mandatory}
-	#%\qualifier{t0}{: epoch for mean longitude of 0 degrees (periastron, MJD)}
-	#%\qualifier{t90}{: epoch for mean longitude of 90 degrees (MJD)}
-	#%\qualifier{pporb}{: rate of change of the orbital period (s/s) (default 0)}
-	#%\qualifier{limit}{: absolute precision of the correction of the  computation (days, default: 1D-6)}
-	#%\qualifier{maxiter}{: stop Newton-Raphson iteration after maxiter steps if limit is not reached (default: 20)}
 
-	#%\description
-	#%    (transcribed from IDL-programm BinaryCor.pro)
-	#%
-	#%    For each time, the z-position of the emitting object is computed
-	#%    and the time is adjusted accordingly. This is iterated until
-	#%    convergence is reached (usually only one iteration is necessary,
-	#%    even in high elliptic cases).
-	#%
-	#%    Follows equations from Hilditch's book and has also been
-	#%    checked against fasebin/axBary. All codes give identical results,
-	#%    (to better than 1d-7s) as checked by a Monte Carlo search using
-	#%    1d7 different orbits.
-	#%
-	#%    qualifiers t90 and t0 have to be in days and in the same time
-	#3%    system as time (e.g. JD or MJD)
-	#%
-	#%    Circular orbits:
-	#%         * if time of lower conjunction Tlow is known, set
-	##%           t0=Tlow and omega=0
-	#%         * if time of ascending node is known, Tasc, set
-	#%           t90=Tasc and omega=0
-	#%         * if time of mid eclipse is known, Tecl, set
-	#%           t0=Tecl-0.25*porb and omega=0
-	#%!%-
+#http://astro.uni-tuebingen.de/software/idl/aitlib/astro/binarycor.html
+def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10**-6,maxiter=20):
 
 	time=np.array(time)  #make sure that time is an array
 	if t90==-1 and t0==-1:
@@ -86,52 +41,28 @@ def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10
 
 	#start with number of iterations = zero
 	numiter=0
-	if PyAstronomy_ok==1: #if you have PyAstronomy
-		ks = pyasl.MarkleyKESolver()
-		contada=0
-		while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
-			tper = (t-t0)/porb
-			m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
-			m=np.array(m)
-			eanom=np.array([1.0]*len(t))
-			for j in range(0,len(t)):       #if you have PyAstronomy
-				eanom[j]=ks.getE(m[j], ecc)       #Mean Anomaly
-			sin_e = np.sin(eanom)
-			cos_e = np.cos(eanom)
-			z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
-			f = (t-time)+z                               
-			df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
-			cor =f/(1.0+df)
-			t = t-cor
-			numiter=numiter+1
-			contada=contada+1
-			print(100*contada/20,"%")
-			if numiter >= maxiter:
-				print("Exceeded maxiter iterations and did not reach convergence");
-				break
 			
-	if PyAstronomy_ok==0:		
-		contada=0
-		while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
-			tper = (t-t0)/porb
-			m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
-			m=np.array(m)
-			eanom=np.array([1.0]*len(t))
-			#eanom = KeplerEquation(m,ecc)  #use this command for a faster solution
-			eanom = KeplerEquation1(m,ecc)  #use this command for a better solution
-			sin_e = np.sin(eanom)
-			cos_e = np.cos(eanom)
-			z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
-			f = (t-time)+z                               
-			df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
-			cor =f/(1.0+df)
-			t = t-cor
-			numiter=numiter+1
-			contada=contada+1
-			print(100*contada/20,"%")
-			if numiter >= maxiter:
-				print("Exceeded maxiter iterations and did not reach convergence");
-				break
+	contada=0
+	while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
+		tper = (t-t0)/porb
+		m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
+		m=np.array(m)
+		eanom=np.array([1.0]*len(t))
+		#eanom = KeplerEquation(m,ecc)  #use this command for a faster solution
+		eanom = KeplerEquation1(m,ecc)  #use this command for a better solution
+		sin_e = np.sin(eanom)
+		cos_e = np.cos(eanom)
+		z = asini_d*(sinw*(cos_e-ecc)+sq*cosw*sin_e)
+		f = (t-time)+z                               
+		df = (sq*cosw*cos_e - sinw*sin_e)*(2*np.pi*asini_d/(porb*(1.0-ecc*cos_e)))
+		cor =f/(1.0+df)
+		t = t-cor
+		numiter=numiter+1
+		contada=contada+1
+		print('iteration ' + str(contada)+' of 20')
+		if numiter >= maxiter:
+			print("Exceeded maxiter iterations and did not reach convergence");
+			break
 	return(t)
 
 def KeplerEquation(m,ecc):#http://astro.uni-tuebingen.de/software/idl/aitlib/astro/binarycor.html
@@ -141,25 +72,20 @@ def KeplerEquation(m,ecc):#http://astro.uni-tuebingen.de/software/idl/aitlib/ast
 		return
 	if ecc>=1:
 		print("error: Orbit correction has only been implemented for circular and elliptic orbits")
-	print('etapa 1')
+		
 	for j in range(0,len(m)):
 		mod_m=m[j]/2/np.pi
 		m[j]=m[j]-2*np.pi*round(mod_m)
-		if j==3:print(len(m)) 
 		if j==round(len(m)*0.05):print(5,"%")
 		if j==round(len(m)*0.25):print(25,"%")
 		if j==round(len(m)*0.5):print(50,"%")
 		if j==round(len(m)*0.8):print(80,"%")
 		if j==len(m)-1:print(100,"%")
 		while m[j]>np.pi:
-			print(m[j])
 			m[j]=m[j]-2*np.pi
-			print(m[j])
 			
 		while m[j]<-np.pi:
-			print(m[j])
 			m[j]=m[j]+2*np.pi
-			print(m[j])
 	if ecc==0:
 		E=m
 	aux=4.0*ecc+0.5
@@ -216,6 +142,13 @@ def KeplerEquation1(m,ecc):
 	if ecc>=1:
 		print("error: Orbit correction has only been implemented for circular and elliptic orbits")
 	for j in range(0,len(m)):
+		mod_m=m[j]/2/np.pi
+		m[j]=m[j]-2*np.pi*round(mod_m)
+		if j==round(len(m)*0.05):print(5,"%")
+		if j==round(len(m)*0.25):print(25,"%")
+		if j==round(len(m)*0.5):print(50,"%")
+		if j==round(len(m)*0.8):print(80,"%")
+		if j==len(m)-1:print(100,"%")
 		while m[j]>np.pi:
 			m[j]=m[j]-2*np.pi
 		while m[j]<-np.pi:

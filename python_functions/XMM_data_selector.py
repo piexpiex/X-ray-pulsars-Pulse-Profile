@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from astropy.io import fits
 from stingray.events import EventList
-#from stingray.lightcurve import Lightcurve
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
@@ -12,16 +11,17 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-READ=read_files()
+READ=read_files() # run.sh data
 
-name_file=READ[1] #name of the files with the data
+name_file=READ[1] 
+if name_file[0]==' ':
+	exit()
 
-#datos (en principio)
-asini=READ[3] #[It-sec]
-Porb=READ[4] #[days]
+asini=READ[3] 
+Porb=READ[4]
 ecc=READ[5]
-omega_d=READ[6] #[degrees]
-T0=READ[7] #[MJD]
+omega_d=READ[6] 
+T0=READ[7]
 
 period = READ[8]
 
@@ -29,6 +29,10 @@ nbin = READ[12]
 
 overwrite=READ[14]
 Z_2_check=READ[15]
+
+frequency_bin=READ[16]
+
+frequency_range=READ[17]
 
 times=np.array([])
 
@@ -92,12 +96,14 @@ hdul.writeto('fits_folder/XMM_times.fits',overwrite=True)
 
 times=TIME
 
+print('Search for the best frequency')
+
 # We will search for pulsations over a range of frequencies around the known pulsation period.
 obs_length = times[len(times)-1]-times[0]
-df_min = 10/obs_length
-oversampling=15
-df = df_min / oversampling
-frequencies = np.arange(1/period - 500 * df, 1/period + 500 * df, df)
+df_min = 1/obs_length
+oversampling=1
+df = df_min *frequency_bin/ oversampling
+frequencies = np.arange(1/period - frequency_range * df/2, 1/period +  frequency_range * df/2, df)
 
 freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
 

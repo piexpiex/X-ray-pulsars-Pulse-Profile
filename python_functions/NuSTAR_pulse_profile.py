@@ -10,18 +10,16 @@ from stingray.pulse.search import plot_profile
 from pulse_profile import *
 from read_files import *
 
-READ=read_files()
-#NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
-#energy_ranges,nbin,nsinusoids,overwrite,Z_2_check)
+READ=read_files() # run.sh data
 
-name_file=READ[0] #name of the files with the data
+name_file=READ[0] 
 
-#datos (en principio)
+
 source=READ[2]
 
 period = READ[8]
 
-pulse_frequency=READ[9] #the frequency obtained by NuSTAR_data_selector.py
+pulse_frequency=READ[9] 
 
 Energy_ranges = READ[11]
 
@@ -132,16 +130,32 @@ for j in range(len(time_photons)):
 	
 #saving the parameters
 
-Parameters_nustar=np.array([])
+c1 = fits.Column(name='Energy range', array=np.arange(1,len(Energy_ranges)), format='E')
+c2 = fits.Column(name='Initial energy (KeV)', array=Energy_ranges[0:len(Energy_ranges)-1], format='E')
+c3 = fits.Column(name='Final energy (KeV)', array=Energy_ranges[1:len(Energy_ranges)], format='E')
+COLUMNS=[c1,c2,c3]
 for j in range(nsinusoids):
-	AD=np.concatenate((A_j[j],F_j[j],Sigma_Aj[j],Sigma_Fj[j]),axis=None)
+	A_j=[]
+	F_j=[]
+	Sigma_Aj=[]
+	Sigma_Fj=[]
+	for k in range(len(time_photons)):
+		A_j.append(amplitudes[k][j])
+		F_j.append(initial_phases[k][j])
+		Sigma_Aj.append(amplitudes_sigma[k][j])
+		Sigma_Fj.append(initial_phases_sigma[k][j])
+	c_A_j=fits.Column(name='A'+str(j+1), array=np.array(A_j), format='E')
+	COLUMNS.append(c_A_j)
+	c_F_j=fits.Column(name='F'+str(j+1), array=np.array(F_j), format='E')
+	COLUMNS.append(c_F_j)
+	c_Sigma_Aj=fits.Column(name='Sigma A'+str(j+1), array=np.array(Sigma_Aj), format='E')
+	COLUMNS.append(c_Sigma_Aj)
+	c_Sigma_Fj=fits.Column(name='Sigma F'+str(j+1), array=np.array(Sigma_Fj), format='E')
+	COLUMNS.append(c_Sigma_Fj)
 
 
-Parameters_nustar=np.concatenate((Parameters_nustar,AD),axis=None)
-
-hdu = fits.PrimaryHDU(Parameters_nustar)
-hdul = fits.HDUList([hdu])
-hdul.writeto('fits_folder/Parameters_NUSTAR.fits',overwrite=True)
+t = fits.BinTableHDU.from_columns(COLUMNS,name='parameters')
+t.writeto('fits_folder/Parameters_NUSTAR.fits',overwrite=True)
 
 ############################
 ### Pulse profiles plots ###
@@ -152,9 +166,9 @@ plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hs
 plt.suptitle('Source:'+source+'  \n NuSTAR observations \n Pulse period '+str(period)+'s',fontsize=12)
 for j in range(len(time_photons)):
 	if len(time_photons)>2:
-		plt.subplot(2,round(len(time_photons)/2),j+1)
+		plt.subplot(2,round((len(time_photons)+0.1)/2),j+1)
 	else:
-		plt.subplot(1,round(len(time_photons)),j+1)
+		plt.subplot(1,round((len(time_photons)+0.1)),j+1)
 
 	plt.plot(ph2,ffit[j](ph2), 'k',label=str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV')
 	for k in range(nsinusoids):
@@ -182,9 +196,9 @@ plt.suptitle('Source:'+source+'  \n NuSTAR observations \n Pulse period '+str(pe
 color=['b','g','r','m']*10
 for j in range(len(time_photons)):
 	if len(time_photons)>2:
-		plt.subplot(2,round(len(time_photons)/2),j+1)
+		plt.subplot(2,round((len(time_photons)+0.1)/2),j+1)
 	else:
-		plt.subplot(1,round(len(time_photons)),j+1)
+		plt.subplot(1,round((len(time_photons)+0.1)),j+1)
 
 	plt.step(Pulse_profiles[j].ph,Pulse_profiles[j].profilenorm,where='mid',color=color[j],label=str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV')
 	plt.errorbar(Pulse_profiles[j].ph,Pulse_profiles[j].profilenorm,yerr=Pulse_profiles[j].profile_err,fmt=color[j]+'o',markersize=0.5)

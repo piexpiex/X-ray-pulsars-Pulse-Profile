@@ -85,6 +85,6 @@ class pulse_profile():
 		
 		for j in range(2*n):
 			Sigma[j]=(S*np.linalg.inv(C_jk)[j][j]/(self.nbin-n))**0.5
-		Sigma_A=Sigma[0:5]
-		Sigma_F=Sigma[5:10]
+		Sigma_A=Sigma[0:n]
+		Sigma_F=Sigma[n:2*n]
 		return(ph2,ffit,A,F,Sigma_A,Sigma_F)
