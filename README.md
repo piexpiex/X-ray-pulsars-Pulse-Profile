@@ -2,7 +2,7 @@
 
 Program composed by Python and Bash scripts used to obtain pulse profiles of a X-ray pulsar with NuSTAR and XMM-Newton data.
 
-To use it modify the run.sh parameters and use the command "sh run.sh"
+To use it modify the run.sh parameters and use the command "sh run.sh" with the python_functions folder and data files in fits format in the same directory.
 
 These programs include:
 
