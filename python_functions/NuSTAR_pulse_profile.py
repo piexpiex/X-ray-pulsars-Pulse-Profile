@@ -9,6 +9,7 @@ from stingray.pulse.pulsar import fold_events
 from stingray.pulse.search import plot_profile
 from pulse_profile import *
 from read_files import *
+import os
 
 READ=read_files() # run.sh data
 
