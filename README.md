@@ -88,13 +88,13 @@ period = xx --> pulsar aproximate spin period
 pulse_frequency_NuSTAR= 0 --> pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
 pulse_frequency_XMM= 0 --> pulsar frequency found in XMM-Newton observations (0 to find it or insert the value if known)
 
-energy_ranges=[0.5,xx,78] --> energy ranges in KeV (XMM_Newton --> 0.5-12 & NuSTAR --> 3-78) in square brackets
+energy_ranges=[xx,xx,xx] --> energy ranges in KeV (XMM_Newton --> 0.5-12 & NuSTAR --> 3-78) in square brackets
 
 nbin = xx --> number of pulse profile bins
 
 nsinusoids= xx --> number of sinusoids for the Fourier series fit
 
-overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files
+overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files, if you want to perform the analysis in multiple stages select "N" to do not repeat the first stages
 
 Z_2_check= xx --> (Y/N) [default no] command to check the pulse frequency with Z^2 statistic (slows down the analysis)
 
