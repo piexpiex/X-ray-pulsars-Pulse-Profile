@@ -75,13 +75,13 @@ NuSTAR_file=[NuSTAR_file_1.fits,NuSTAR_file_2.fits,...] --> name of the files wi
 
 XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-Newton data in fits format write in square brackets (if you do not have XMM_Newton data put "[ ]")
 
-source= X-ray pulsar name --> name of the analized source
-
-asini= xx --> projected semi-major axis in It-sec 
-Porb= xx --> orbital period at the epoch in days
-ecc= xx -->  eccentricity
-omega_d= xx --> longitude of periastron in degrees
+source= X-ray pulsar name --> name of the analized source  
+asini= xx --> projected semi-major axis in It-sec  
+Porb= xx --> orbital period at the epoch in days  
+ecc= xx -->  eccentricity  
+omega_d= xx --> longitude of periastron in degrees  
 T0= xx --> epoch for mean longitude of 0 degrees in MJD system
+
 (to perform the analysis without the binay orbit correction, set asini=0, Porb=0, ecc=0, omega_d=0 and T0=0)
 
 period = xx --> pulsar aproximate spin period
