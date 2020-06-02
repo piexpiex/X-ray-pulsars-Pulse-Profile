@@ -64,7 +64,7 @@ T_star_stop=np.array(T_star_stop)
 
 #times
 hdulist = fits.open("fits_folder/nustar_times.fits")
-times = hdulist[0].data
+times = hdulist['VALUES'].data[:][0]
 
 #####################
 ### Pulse profile ###

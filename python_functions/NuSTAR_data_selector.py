@@ -76,9 +76,10 @@ else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 
-hdu = fits.PrimaryHDU(TIME)
-hdul = fits.HDUList([hdu])
-hdul.writeto('fits_folder/nustar_times.fits',overwrite=True)
+c1 = fits.Column(name='TIMES', array=TIME, format='E')
+
+t = fits.BinTableHDU.from_columns([c1],name='VALUES')
+t.writeto('fits_folder/XMM_times.fits',overwrite=True)
 
 times=TIME
 

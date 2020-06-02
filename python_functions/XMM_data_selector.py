@@ -40,7 +40,6 @@ key_overwrite=0
 
 if overwrite=='n' and READ[10]!=0:
 	try:
-		fits.open('fits_folder/XMM_pha.fits')
 		fits.open('fits_folder/XMM_times.fits')
 		key_overwrite=1
 	except:
@@ -85,10 +84,6 @@ for k in range(len(name_file)):
 	times=np.append(times,times_k)
 	PHA=np.append(PHA,PHA_k)
 
-hdu = fits.PrimaryHDU(PHA)
-hdul = fits.HDUList([hdu])
-hdul.writeto('fits_folder/XMM_pha.fits',overwrite=True)
-
 if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
 	print('No possible orrection of the binary sistem delay')
 	TIME=times
@@ -96,9 +91,11 @@ else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 
-hdu = fits.PrimaryHDU(TIME)
-hdul = fits.HDUList([hdu])
-hdul.writeto('fits_folder/XMM_times.fits',overwrite=True)
+c1 = fits.Column(name='TIMES', array=TIME, format='E')
+c2 = fits.Column(name='PHA',array=PHA, format='E')
+
+t = fits.BinTableHDU.from_columns([c1,c2],name='VALUES')
+t.writeto('fits_folder/XMM_times.fits',overwrite=True)
 
 times=TIME
 

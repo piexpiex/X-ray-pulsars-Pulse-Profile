@@ -58,11 +58,11 @@ for k in range(len(name_file)):
 
 
 #PI
-hdulist = fits.open("fits_folder/XMM_PHA.fits")
-PI = hdulist[0].data
-#times
 hdulist = fits.open("fits_folder/XMM_times.fits")
-times = hdulist[0].data
+PI = hdulist['VALUES'].data[:][1]
+#times
+
+times = hdulist['VALUES'].data[:][0]
 T_star_stop=[[Tstart[0],Tstop[0]]]
 Total_exptime=0
 for j in range(len(Tstart)):
