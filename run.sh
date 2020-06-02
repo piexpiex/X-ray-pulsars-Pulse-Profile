@@ -1,3 +1,4 @@
+'
 #############################
 ### Files and source name ###
 #############################
@@ -42,6 +43,7 @@ frequency_range=2000 # number of frequency bins [center in 1/period]
 ##############################
 ### running python scripts ###
 ##############################
+'
 
 python python_functions/XMM_data_selector.py
 python python_functions/NuSTAR_data_selector.py
@@ -49,3 +51,5 @@ python python_functions/XMM_pulse_profile.py
 python python_functions/NuSTAR_pulse_profile.py
 python python_functions/energy_evolution.py
 python python_functions/MERGER.py
+
+
