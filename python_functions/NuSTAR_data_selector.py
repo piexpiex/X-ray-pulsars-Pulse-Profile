@@ -17,7 +17,7 @@ name_file=READ[0]
 if name_file[0]==' ':
 	exit()
 
-asini=READ[3]
+asini=READ[3] 
 Porb=READ[4]
 ecc=READ[5]
 omega_d=READ[6] 
@@ -69,8 +69,13 @@ for j in range(len(name_file)):
 	times=np.append(times,ev.time)
 #######################################
 
-print('Correction of the binary sistem delay')
-TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
+if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
+	print('No possible orrection of the binary sistem delay')
+	TIME=times
+else:
+	print('Correction of the binary sistem delay')
+	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
+
 hdu = fits.PrimaryHDU(TIME)
 hdul = fits.HDUList([hdu])
 hdul.writeto('fits_folder/nustar_times.fits',overwrite=True)

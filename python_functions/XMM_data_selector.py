@@ -88,8 +88,14 @@ for k in range(len(name_file)):
 hdu = fits.PrimaryHDU(PHA)
 hdul = fits.HDUList([hdu])
 hdul.writeto('fits_folder/XMM_pha.fits',overwrite=True)
-print('Correction of the binary sistem delay')
-TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
+
+if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
+	print('No possible orrection of the binary sistem delay')
+	TIME=times
+else:
+	print('Correction of the binary sistem delay')
+	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
+
 hdu = fits.PrimaryHDU(TIME)
 hdul = fits.HDUList([hdu])
 hdul.writeto('fits_folder/XMM_times.fits',overwrite=True)

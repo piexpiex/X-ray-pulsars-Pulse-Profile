@@ -1,4 +1,9 @@
-from PyPDF2 import PdfFileMerger
+try:
+	from PyPDF2 import PdfFileMerger
+except:
+	print('No avalaible pdf merger')
+	exit()
+
 from read_files import *
 READ=read_files()
 source=add_space(READ[2])

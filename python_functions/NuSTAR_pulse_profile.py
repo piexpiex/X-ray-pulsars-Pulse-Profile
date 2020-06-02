@@ -28,22 +28,6 @@ nbin = READ[12]
 
 nsinusoids=READ[13]
 
-overwrite=READ[14]
-
-key_overwrite=0
-
-if overwrite=='n' and READ[10]!=0:
-	try:
-		fits.open('fits_folder/Parameters_NUSTAR.fits')
-		key_overwrite=1
-	except:
-		print('NuSTAR files not found')
-		print('I proceed to fit the pulse profiles')
-		key_overwrite=0
-		
-if key_overwrite==1:
-	exit()
-
 try:
 	os.mkdir('fits_folder')
 	os.mkdir('figures_folder')
