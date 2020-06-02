@@ -77,11 +77,12 @@ XMM_file= [XMM_file_1.fits,XMM_file_2.fits,...] --> name of the files with XMM-N
 
 source= X-ray pulsar name --> name of the analized source
 
-asini= xx --> projected semi-major axis in It-sec
+asini= xx --> projected semi-major axis in It-sec 
 Porb= xx --> orbital period at the epoch in days
 ecc= xx -->  eccentricity
 omega_d= xx --> longitude of periastron in degrees
 T0= xx --> epoch for mean longitude of 0 degrees in MJD system
+(to perform the analysis without the binay orbit correction, set asini=0, Porb=0, ecc=0, omega_d=0 and T0=0)
 
 period = xx --> pulsar aproximate spin period
 
@@ -94,7 +95,7 @@ nbin = xx --> number of pulse profile bins
 
 nsinusoids= xx --> number of sinusoids for the Fourier series fit
 
-overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files, if you want to perform the analysis in multiple stages select "N" to do not repeat the first stages
+overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files obtained by XMM_data_selector.py/NuSTAR_data_selector.py, if you want to perform the analysis in multiple stages select "N" to do not repeat the first stages, but you can continue to change the energy ranges or another analysis parameter
 
 Z_2_check= xx --> (Y/N) [default no] command to check the pulse frequency with Z^2 statistic (slows down the analysis)
 
