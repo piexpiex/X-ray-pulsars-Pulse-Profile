@@ -84,35 +84,4 @@ for k in range(nsinusoids):
 	plt.legend()
 
 
-plt.savefig("figures_folder/amplitudes_energy_variation.pdf")
-
-# Initial phases
-plt.figure(figsize=(22.0,7.0))
-
-for k in range(nsinusoids):
-	plt.subplot(round((nsinusoids+0.1)/2),2,k+1)
-	plt.suptitle('Source:'+source+'  \n Sinusoids initial phases \n Pulse period '+str(period)+'s',fontsize=12)
-	max_value=0
-	#NuSTAR
-	
-	for j in range(len(NuSTAR_parameters)):
-		if j==0:
-			plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][4+k*4],NuSTAR_parameters[j][4+k*4]], 'k',label='F'+str(k+1))
-			plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][4+k*4],yerr=NuSTAR_parameters[j][6+k*4]**0.5,fmt='ko',markersize=0.5)
-		else:
-			plt.plot([NuSTAR_parameters[j][1],NuSTAR_parameters[j][2]],[NuSTAR_parameters[j][4+k*4],NuSTAR_parameters[j][4+k*4]], 'k')
-			plt.errorbar((NuSTAR_parameters[j][1]+NuSTAR_parameters[j][2])/2,NuSTAR_parameters[j][4+k*4],yerr=NuSTAR_parameters[j][6+k*4]**0.5,fmt='ko',markersize=0.5)
-	#XMM-Newton
-	
-	for j in range(len(XMM_parameters)):
-		plt.plot([XMM_parameters[j][1],XMM_parameters[j][2]],[XMM_parameters[j][4+k*4],XMM_parameters[j][4+k*4]], 'b')
-		plt.errorbar((XMM_parameters[j][1]+XMM_parameters[j][2])/2,XMM_parameters[j][4+k*4],yerr=XMM_parameters[j][6+k*4]**0.5,fmt='bo',markersize=0.5)
-	
-	plt.xscale('log')
-	plt.ylabel('Phase')
-	plt.xlabel("Energy (KeV)")
-	plt.ylim(0,1)
-	plt.legend()
-
-
-#plt.savefig("figures_folder/initial_phases_energy_variation.pdf")
+plt.savefig('figures_folder/amplitudes_energy_variation.pdf')

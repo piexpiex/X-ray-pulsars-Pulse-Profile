@@ -11,7 +11,7 @@ source=add_space(READ[2])
 
 print('Merging the pdfs with the resulting plots')
 
-pdfs = [source+"_XMM_pulse_profile.pdf",source+"_XMM_pulse_profile_harmonics.pdf","NuSTAR_pulse_profile.pdf","NuSTAR_pulse_profile_harmonics.pdf","amplitudes_energy_variation.pdf"]
+pdfs = ["XMM_pulse_profile.pdf","XMM_pulse_profile_harmonics.pdf","NuSTAR_pulse_profile.pdf","NuSTAR_pulse_profile_harmonics.pdf","amplitudes_energy_variation.pdf"]
 pdf_name ='figures_folder/'+ source+'_summary.pdf'
 merger = PdfFileMerger()
 

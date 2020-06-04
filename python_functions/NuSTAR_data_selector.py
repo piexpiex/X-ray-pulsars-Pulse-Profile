@@ -70,16 +70,16 @@ for j in range(len(name_file)):
 #######################################
 
 if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
-	print('No possible orrection of the binary sistem delay')
+	print('No possible correction of the binary sistem delay')
 	TIME=times
 else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 
-c1 = fits.Column(name='TIMES', array=TIME, format='E')
+c1 = fits.Column(name='TIMES', array=TIME, format='D')
 
 t = fits.BinTableHDU.from_columns([c1],name='VALUES')
-t.writeto('fits_folder/XMM_times.fits',overwrite=True)
+t.writeto('fits_folder/nustar_times.fits',overwrite=True)
 
 times=TIME
 

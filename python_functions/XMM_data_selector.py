@@ -34,8 +34,6 @@ frequency_bin=READ[16]
 
 frequency_range=READ[17]
 
-times=np.array([])
-
 key_overwrite=0
 
 if overwrite=='n' and READ[10]!=0:
@@ -57,7 +55,8 @@ try:
 	print('starting the analysis')
 except:
 	print('starting the analysis')
-
+	
+times=np.array([])
 PHA=np.array([])
 print(name_file)
 for k in range(len(name_file)):
@@ -65,34 +64,25 @@ for k in range(len(name_file)):
 	hdulist = fits.open(name_file[k])
 	hdulist.info()
 	header = hdulist[0].header
-	DATA = hdulist[1].data
-	times_k=np.zeros((len(DATA)))
-	PHA_k=np.zeros((len(DATA)))
-	Column=np.where(np.array(DATA.columns.names)=='PHA')
+	data = hdulist[1].data
+	Column=np.where(np.array(data.columns.names)=='TIME')
 	TIME_column=Column[0][0]
-	Column_2=np.where(np.array(DATA.columns.names)=='PHA')
+	Column_2=np.where(np.array(data.columns.names)=='PHA')
 	PHA_column=Column_2[0][0]
-	for j in range(len(times_k)):
-		if j==round(len(DATA)*0.05):print(5,"%")
-		if j==round(len(DATA)*0.25):print(25,"%")
-		if j==round(len(DATA)*0.5):print(50,"%")
-		if j==round(len(DATA)*0.8):print(80,"%")
-		if j==len(DATA)-1:print(100,"%")
-		DATAj=DATA[j]
-		times_k[j]=DATAj[0]#[TIME_column]
-		PHA_k[j]=DATAj[PHA_column]
+	times_k=data.field(TIME_column)
+	PHA_k=data.field(PHA_column) 
 	times=np.append(times,times_k)
 	PHA=np.append(PHA,PHA_k)
 
 if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
-	print('No possible orrection of the binary sistem delay')
+	print('No possible correction of the binary sistem delay')
 	TIME=times
 else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
 
-c1 = fits.Column(name='TIMES', array=TIME, format='E')
-c2 = fits.Column(name='PHA',array=PHA, format='E')
+c1 = fits.Column(name='TIMES', array=TIME, format='D')
+c2 = fits.Column(name='PHA',array=PHA, format='D')
 
 t = fits.BinTableHDU.from_columns([c1,c2],name='VALUES')
 t.writeto('fits_folder/XMM_times.fits',overwrite=True)

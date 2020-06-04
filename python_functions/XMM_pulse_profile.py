@@ -14,6 +14,9 @@ import os
 READ=read_files() # run.sh data
 name_file=READ[1] 
 
+if name_file[0]==' ':
+	exit()
+
 source=READ[2]
 
 period = READ[8]
@@ -42,7 +45,6 @@ Tstart=np.array([])
 Tstop=np.array([])
 for k in range(len(name_file)):
 	hdulist = fits.open(name_file[k])
-	hdulist.info()
 	header = hdulist[0].header
 	for j in range(1,13): # lecture of the standar good time interval is maximal to 12 (equal to the numbre of pn chips)
 		if j>9:
@@ -57,12 +59,12 @@ for k in range(len(name_file)):
 
 
 
-#PI
+#times & PI
 hdulist = fits.open("fits_folder/XMM_times.fits")
-PI = hdulist['VALUES'].data[:][1]
-#times
+data = hdulist['VALUES'].data
+times=data.field(0) 
+PI =data.field(1)
 
-times = hdulist['VALUES'].data[:][0]
 T_star_stop=[[Tstart[0],Tstop[0]]]
 Total_exptime=0
 for j in range(len(Tstart)):
@@ -139,13 +141,13 @@ for j in range(nsinusoids):
 		F_j.append(initial_phases[k][j])
 		Sigma_Aj.append(amplitudes_sigma[k][j])
 		Sigma_Fj.append(initial_phases_sigma[k][j])
-	c_A_j=fits.Column(name='A'+str(j+1), array=np.array(A_j), format='E')
+	c_A_j=fits.Column(name='A'+str(j+1), array=np.array(A_j), format='D')
 	COLUMNS.append(c_A_j)
-	c_F_j=fits.Column(name='F'+str(j+1), array=np.array(F_j), format='E')
+	c_F_j=fits.Column(name='F'+str(j+1), array=np.array(F_j), format='D')
 	COLUMNS.append(c_F_j)
-	c_Sigma_Aj=fits.Column(name='Sigma A'+str(j+1), array=np.array(Sigma_Aj), format='E')
+	c_Sigma_Aj=fits.Column(name='Sigma A'+str(j+1), array=np.array(Sigma_Aj), format='D')
 	COLUMNS.append(c_Sigma_Aj)
-	c_Sigma_Fj=fits.Column(name='Sigma F'+str(j+1), array=np.array(Sigma_Fj), format='E')
+	c_Sigma_Fj=fits.Column(name='Sigma F'+str(j+1), array=np.array(Sigma_Fj), format='D')
 	COLUMNS.append(c_Sigma_Fj)
 
 
@@ -182,7 +184,7 @@ for j in range(len(time_photons)):
 	plt.xlabel("$\phi$")
 	plt.legend()
 
-plt.savefig("figures_folder/XMM_pulse_profile_harmonics.pdf")
+plt.savefig('figures_folder/XMM_pulse_profile_harmonics.pdf')
 
 plt.figure(figsize=(22.0,7.0))
 plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hspace=None)
@@ -205,5 +207,4 @@ for j in range(len(time_photons)):
 	plt.xlabel("$\phi$")
 	plt.legend()
 
-plt.savefig("figures_folder/XMM_pulse_profile.pdf")
-plt.show()
+plt.savefig('figures_folder/XMM_pulse_profile.pdf')
