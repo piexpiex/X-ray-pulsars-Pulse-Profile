@@ -6,7 +6,22 @@ from read_files import *
 READ=read_files()
 
 source=READ[2]
-period = READ[8]
+period = READ[8] 
+
+if READ[9]!=0 or READ[10]!=0:
+	if READ[9]!=0 or READ[10]==0:
+		period=1/READ[9]
+		period =round(period,2-int(np.log10(period)))
+	elif READ[9]==0 or READ[10]!=0:
+		period=1/READ[10]
+		period =round(period,2-int(np.log10(period)))
+	else:
+		period=(1/READ[9]+1/READ[10])/2
+		period =round(period,2-int(np.log10(period)))
+		
+else:
+	print('no avalaible spin frequency')
+	exit()
 
 Energy_ranges = READ[11]
 
