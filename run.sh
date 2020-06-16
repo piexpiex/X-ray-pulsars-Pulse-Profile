@@ -17,7 +17,7 @@ ecc= xx      # eccentricity
 omega_d= xx  # [degrees]
 T0= xx  # [MJD]
 
-period = xx # pulsar aproximate spin period
+period = xx # aproximate pulsar spin period [seconds]
 
 pulse_frequency_NuSTAR= 0  # pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
 pulse_frequency_XMM= 0 # pulsar frequency found in XMM observations (0 to find it or insert the value if known)
@@ -36,7 +36,7 @@ overwrite= y # (Y/N) [default yes] #overwrite the actual fits files
 
 Z_2_check= n # (Y/N) [default no] #checking the pulse frequency with Z^2 statistic (slows down the analysis)
 
-period_ranges=[xx,xx] # range to search the pulse period (s)
+period_ranges=[xx,xx] # range to search the pulse period [seconds]
 
 period_bins=1000 # number of period bins to test
 
