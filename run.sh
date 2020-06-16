@@ -36,9 +36,9 @@ overwrite= y # (Y/N) [default yes] #overwrite the actual fits files
 
 Z_2_check= n # (Y/N) [default no] #checking the pulse frequency with Z^2 statistic (slows down the analysis)
 
-frequency_bin=1 # frequency bin width [in units of 1/interval_time]
+period_ranges=[xx,xx] # range to search the pulse period (s)
 
-frequency_range=2000 # number of frequency bins [center in 1/period]
+period_bins=1000 # number of period bins to test
 
 ##############################
 ### running python scripts ###
