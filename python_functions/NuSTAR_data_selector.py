@@ -29,9 +29,10 @@ nbin = READ[12]
 overwrite=READ[14]
 Z_2_check=READ[15]
 
-frequency_bin=READ[16]
-
-frequency_range=READ[17]
+period_ranges=READ[16]
+period_ranges=np.array(period_ranges)
+period_ranges=period_ranges.astype(np.float)
+period_bins=READ[17]
 
 key_overwrite=0
 
@@ -86,27 +87,13 @@ times=TIME
 print('Search for the best frequency')
 
 # We will search for pulsations over a range of frequencies around the known pulsation period.
-obs_length = times[len(times)-1]-times[0]
-df_min = 1/obs_length
-oversampling=1
-df = df_min *frequency_bin/ oversampling
-frequencies = np.arange(1/period - frequency_range * df/2, 1/period +  frequency_range * df/2, df)
+
+df=(period_ranges[1]-period_ranges[0])/period_bins
+frequencies = 1/np.arange(period_ranges[0], period_ranges[1], df)
 
 freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
-
 pulse_frequency=freq[np.where(efstat==max(efstat))[0][0]]
-duplication=1
-while max(efstat)<200:
-	pulse_frequency_value=input('the value of the pulse frequency is small, do you want to search a better value (Y/N)')
-	if pulse_frequency_value=='Y' or pulse_frequency_value=='y':
-		duplication=duplication*2
-		frequencies = np.append(np.arange(1/period - 200*duplication * df,1/period - 200*duplication/2 * df,df), np.arange(1/period + 200*duplication/2 * df,1/period + 200*duplication * df, df))
-		freq, efstat = epoch_folding_search(times, frequencies, nbin=nbin)
-		pulse_frequency=freq[np.where(efstat==max(efstat))[0][0]]
-	elif pulse_frequency_value=='N' or pulse_frequency_value=='n':
-		break
-	else:
-		pulse_frequency_value=input('please Y or N')
+
 print('pulse frequency',pulse_frequency)
 _=write_files('pulse_frequency_NuSTAR',pulse_frequency)
 # ---- PLOTTING --------

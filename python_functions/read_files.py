@@ -80,7 +80,7 @@ def read_files():
 			omega=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:2]=='T0':
 			T0=float(delete_space(run_file[j][1]))
-		elif run_file[j][0][0:6]=='period':
+		elif run_file[j][0][0:6]=='period' and run_file[j][0][6]!='_':
 			period=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:4]=='nbin':
 			nbin=int(delete_space(run_file[j][1]))
@@ -90,10 +90,10 @@ def read_files():
 			pulse_frequency_XMM=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:22]=='pulse_frequency_NuSTAR':
 			pulse_frequency_NuSTAR=float(delete_space(run_file[j][1]))
-		elif run_file[j][0][0:13]=='frequency_bin':
-			frequency_bin=float(delete_space(run_file[j][1]))
-		elif run_file[j][0][0:15]=='frequency_range':
-			frequency_range=float(delete_space(run_file[j][1]))
+		elif run_file[j][0][0:13]=='period_ranges':
+			period_ranges=lister(delete_space(run_file[j][1]))
+		elif run_file[j][0][0:11]=='period_bins':
+			period_bins=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:9]=='overwrite':
 			overwrite=delete_space(run_file[j][1])
 			if overwrite=='N' or overwrite=='n':
@@ -109,7 +109,7 @@ def read_files():
 		elif run_file[j][0][0:13]=='energy_ranges':
 			energy_ranges=lister(delete_space(run_file[j][1]))
 	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
-	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,frequency_bin,frequency_range)
+	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,period_ranges,period_bins)
 
 def write_files(word,value):
 	
@@ -126,6 +126,8 @@ def write_files(word,value):
 
 	for linea in CMD:
 		if linea[0:len(word)]==word:
+			pre_linea=linea
+			post_linea=''
 			for k in range(len(linea)-2):
 				if linea[k:k+3]=='rem' or linea[k:k+3]=='REM' or linea[k]=='#':
 					post_linea=linea[k:len(linea)]
@@ -134,9 +136,8 @@ def write_files(word,value):
 			for j in range(len(pre_linea)):
 				if pre_linea[j]=='=':
 					pre_linea=pre_linea[0:j+1]+str(value)+' '
+					break
 			linea=pre_linea+post_linea
-		else:
-			er=0 #CMD.write(linea)
 		file_to_write.append([linea])
 	if key==1:
 		CMD2 = open('run.sh','w')
