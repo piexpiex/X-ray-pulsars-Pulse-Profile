@@ -99,8 +99,8 @@ overwrite= xx --> (Y/N) [default yes] command to overwrite the actual fits files
 
 Z_2_check= xx --> (Y/N) [default no] command to check the pulse frequency with Z^2 statistic (slows down the analysis)
 
-frequency_bin= xx --> width  of frequency bins in units of 1/(interval time)
+period_ranges=[xx,xx] --> range to search the pulse period
 
-frequency_range= xx --> number of frequency bins with the center in 1/period
+period_bins=xx --> number of period bins to test
 
 
