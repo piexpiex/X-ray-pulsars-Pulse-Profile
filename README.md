@@ -37,12 +37,12 @@ run.sh --> you can write the information of the source (ephemeris, name, etc) an
                 WARNING
 The run.sh file may not work properly on some operating systems when downloaded from Github, if this happens try rewriting the file or writing the following commands in Unix terminal:
 
-python python_functions/XMM_data_selector.py
-python python_functions/NuSTAR_data_selector.py
-python python_functions/XMM_pulse_profile.py
-python python_functions/NuSTAR_pulse_profile.py
-python python_functions/energy_evolution.py
-python python_functions/MERGER.py
+$ python python_functions/XMM_data_selector.py <br/>
+$ python python_functions/NuSTAR_data_selector.py <br/>
+$ python python_functions/XMM_pulse_profile.py <br/>
+$ python python_functions/NuSTAR_pulse_profile.py <br/>
+$ python python_functions/energy_evolution.py <br/>
+$ python python_functions/MERGER.py
 
 --------------------------------------
 
