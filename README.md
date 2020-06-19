@@ -33,6 +33,19 @@ If you want to merge the pdfs you should also have *[PyPDF2][3]* python library 
 
 run.sh --> you can write the information of the source (ephemeris, name, etc) and the working parameters, later you can run this file in terminal with the command sh run.sh and execute the program.
 
+-------------------------------
+                WARNING
+The run.sh file may not work properly on some operating systems when downloaded from Github, if this happens try rewriting the file or writing the following commands in Unix terminal:
+
+python python_functions/XMM_data_selector.py
+python python_functions/NuSTAR_data_selector.py
+python python_functions/XMM_pulse_profile.py
+python python_functions/NuSTAR_pulse_profile.py
+python python_functions/energy_evolution.py
+python python_functions/MERGER.py
+
+--------------------------------------
+
 ## Python scripts
 
 binary_cor.py --> Corrects the time values due to the binary orbit delay (translated functions of *[IAAT][4]*).
