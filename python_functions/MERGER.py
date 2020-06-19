@@ -17,7 +17,7 @@ merger = PdfFileMerger()
 
 for pdf in pdfs:
 	try:
-		merger.append(open('figures_folder/'+pdf, 'rb'))
+		merger.append(open('figures_folder/'+source+'_'+pdf, 'rb'))
 	except:
 		continue
 

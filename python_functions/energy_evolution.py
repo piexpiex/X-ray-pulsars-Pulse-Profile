@@ -99,4 +99,4 @@ for k in range(nsinusoids):
 	plt.legend()
 
 
-plt.savefig('figures_folder/amplitudes_energy_variation.pdf')
+plt.savefig('figures_folder/'+add_space(source)+'_amplitudes_energy_variation.pdf')

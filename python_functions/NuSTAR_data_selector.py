@@ -16,7 +16,7 @@ READ=read_files() # run.sh data
 name_file=READ[0] 
 if name_file[0]==' ':
 	exit()
-
+source=READ[2]
 asini=READ[3] 
 Porb=READ[4]
 ecc=READ[5]
@@ -98,12 +98,13 @@ print('pulse frequency',pulse_frequency)
 _=write_files('pulse_frequency_NuSTAR',pulse_frequency)
 # ---- PLOTTING --------
 plt.figure()
+plt.suptitle('Source:'+source+'  \n NuSTAR observations',fontsize=12)
 plt.plot(freq, efstat, label='EF statistics')
 plt.axhline(nbin - 1, ls='--', lw=3, color='k', label='n - 1')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('EF Statistics')
 _ = plt.legend()
-plt.savefig("figures_folder/NuSTAR_pulse_frequency_search.pdf")
+plt.savefig('figures_folder/'+add_space(source)+'_NuSTAR_pulse_frequency_search.pdf')
 
 if Z_2_check=='N':
 	exit()
@@ -114,6 +115,7 @@ freq, zstat = z_n_search(times, frequencies, nbin=nbin, nharm=nharm)
 
 # ---- PLOTTING --------
 plt.figure()
+plt.suptitle('Source:'+source+'  \n NuSTAR observations',fontsize=12)
 plt.plot(freq, (zstat - nharm), label='$Z_2$ statistics')
 plt.plot(freq, efstat - nbin + 1, color='gray', label='EF statistics', alpha=0.5)
 
@@ -130,4 +132,4 @@ plt.ylabel('Statistics - d.o.f. (Zoom)')
 
 plt.ylim([-15, 15])
 _ = plt.xlim([frequencies[0], frequencies[-1]])
-plt.savefig("figures_folder/NuSTAR_pulse_frequency_search_check.pdf")
+plt.savefig('figures_folder/'+add_space(source)+'_NuSTAR_pulse_frequency_search_check.pdf')

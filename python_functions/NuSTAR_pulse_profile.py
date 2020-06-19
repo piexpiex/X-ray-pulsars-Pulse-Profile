@@ -192,7 +192,7 @@ for j in range(len(time_photons)):
 	plt.xlabel("$\phi$")
 	plt.legend()
 
-plt.savefig('figures_folder/NuSTAR_pulse_profile_harmonics.pdf')
+plt.savefig('figures_folder/'+add_space(source)+'_NuSTAR_pulse_profile_harmonics.pdf')
 
 plt.figure(figsize=(22.0,7.0))
 plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hspace=None)
@@ -215,5 +215,5 @@ for j in range(len(time_photons)):
 	plt.xlabel("$\phi$")
 	plt.legend()
 
-plt.savefig('figures_folder/NuSTAR_pulse_profile.pdf')
+plt.savefig('figures_folder/'+add_space(source)+'_NuSTAR_pulse_profile.pdf')
 
