@@ -60,7 +60,7 @@ def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10
 		t = t-cor
 		numiter=numiter+1
 		contada=contada+1
-		print('iteration ' + str(contada)+' (max 20)')
+		print('iteration ' + str(contada)+' completed (max 20)')
 		if numiter >= maxiter:
 			print("Exceeded maxiter iterations and did not reach convergence");
 			break
