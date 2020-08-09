@@ -43,6 +43,7 @@ def Binary_orbit(time,asini,porb,ecc,omega_d,t0=-1,t90=-1,pporb=0.0,limit=1.0*10
 	numiter=0
 			
 	contada=0
+	print('starting iterations (max 20)')
 	while((abs(np.amax(cor)) > limit) and (numiter < maxiter)):
 		tper = (t-t0)/porb
 		m = 2*np.pi*(tper*(1.-0.5*pporb*tper))
