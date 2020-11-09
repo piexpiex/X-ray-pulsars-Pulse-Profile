@@ -33,6 +33,7 @@ period_ranges=READ[16]
 period_ranges=np.array(period_ranges)
 period_ranges=period_ranges.astype(np.float)
 period_bins=READ[17]
+nustar_time=READ[19]
 
 key_overwrite=0
 

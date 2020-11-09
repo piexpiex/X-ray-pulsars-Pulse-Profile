@@ -77,10 +77,15 @@ def KeplerEquation(m,ecc):#http://astro.uni-tuebingen.de/software/idl/aitlib/ast
 	for j in range(0,len(m)):
 		mod_m=m[j]/2/np.pi
 		m[j]=m[j]-2*np.pi*round(mod_m)
-		if j==round(len(m)*0.05):print(5,"%")
-		if j==round(len(m)*0.25):print(25,"%")
+		if j==round(len(m)*0.1):print(10,"%")
+		if j==round(len(m)*0.2):print(20,"%")
+		if j==round(len(m)*0.3):print(30,"%")
+		if j==round(len(m)*0.4):print(40,"%")
 		if j==round(len(m)*0.5):print(50,"%")
+		if j==round(len(m)*0.6):print(60,"%")
+		if j==round(len(m)*0.7):print(70,"%")
 		if j==round(len(m)*0.8):print(80,"%")
+		if j==round(len(m)*0.9):print(90,"%")
 		if j==len(m)-1:print(100,"%")
 		while m[j]>np.pi:
 			m[j]=m[j]-2*np.pi
@@ -145,10 +150,15 @@ def KeplerEquation1(m,ecc):
 	for j in range(0,len(m)):
 		mod_m=m[j]/2/np.pi
 		m[j]=m[j]-2*np.pi*round(mod_m)
-		if j==round(len(m)*0.05):print(5,"%")
-		if j==round(len(m)*0.25):print(25,"%")
+		if j==round(len(m)*0.1):print(10,"%")
+		if j==round(len(m)*0.2):print(20,"%")
+		if j==round(len(m)*0.3):print(30,"%")
+		if j==round(len(m)*0.4):print(40,"%")
 		if j==round(len(m)*0.5):print(50,"%")
+		if j==round(len(m)*0.6):print(60,"%")
+		if j==round(len(m)*0.7):print(70,"%")
 		if j==round(len(m)*0.8):print(80,"%")
+		if j==round(len(m)*0.9):print(90,"%")
 		if j==len(m)-1:print(100,"%")
 		while m[j]>np.pi:
 			m[j]=m[j]-2*np.pi

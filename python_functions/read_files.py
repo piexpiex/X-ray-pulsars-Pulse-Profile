@@ -93,7 +93,11 @@ def read_files():
 		elif run_file[j][0][0:13]=='period_ranges':
 			period_ranges=lister(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:11]=='period_bins':
-			period_bins=float(delete_space(run_file[j][1]))
+			period_bins=float(delete_space(run_file[j][1]))		
+		elif run_file[j][0][0:10]=='XMM_Tstart':
+			XMM_time=float(delete_space(run_file[j][1]))
+		elif run_file[j][0][0:13]=='NuSTAR_Tstart':
+			nustar_time=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:9]=='overwrite':
 			overwrite=delete_space(run_file[j][1])
 			if overwrite=='N' or overwrite=='n':
@@ -109,7 +113,7 @@ def read_files():
 		elif run_file[j][0][0:13]=='energy_ranges':
 			energy_ranges=lister(delete_space(run_file[j][1]))
 	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
-	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,period_ranges,period_bins)
+	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,period_ranges,period_bins,XMM_time,nustar_time)
 
 def write_files(word,value):
 	

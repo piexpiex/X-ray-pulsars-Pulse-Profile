@@ -35,7 +35,8 @@ period_ranges=np.array(period_ranges)
 period_ranges=period_ranges.astype(np.float)
 
 period_bins=READ[17]
-
+XMM_time=READ[18]
+print('XMM_time=',XMM_time)
 key_overwrite=0
 
 if overwrite=='n' and READ[10]!=0:
@@ -82,6 +83,7 @@ if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
 else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
+	print(TIME-times)
 
 c1 = fits.Column(name='TIMES', array=TIME, format='D')
 c2 = fits.Column(name='PHA',array=PHA, format='D')
