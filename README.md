@@ -114,6 +114,9 @@ Z_2_check= xx --> (Y/N) [default no] command to check the pulse frequency with Z
 
 period_ranges=[xx,xx] --> range to search the pulse period
 
-period_bins=xx --> number of period bins to test
+period_bins= xx --> number of period bins to test
+
+XMM_Tstart= xx --> Initial time of XMM-Newton observation
+NuSTAR_Tstart= xx --> Initial time of NuSTAR observation
 
 
