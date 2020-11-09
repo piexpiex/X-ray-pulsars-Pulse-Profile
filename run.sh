@@ -26,6 +26,8 @@ overwrite= y # (Y/N) [default yes] #overwrite the actual fits files
 Z_2_check= n # (Y/N) [default no] #checking the pulse frequency with Z^2 statistic (slows down the analysis)
 period_ranges=[xx,xx] # range to search the pulse period [seconds]
 period_bins=1000 # number of period bins to test
+XMM_Tstart= xx # Initial time of XMM-Newton observation
+NuSTAR_Tstart= xx # Initial time of NuSTAR observation
 ##############################
 ### running python scripts ###
 ##############################
