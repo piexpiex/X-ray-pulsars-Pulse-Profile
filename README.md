@@ -25,7 +25,7 @@ It is necesary to install *[Stingray][1]* and *[Astropy][2]* Python packages.
 [1]: https://stingray.readthedocs.io/en/latest/
 [2]: https://www.astropy.org/
 
-If you want to merge the pdfs you should also have *[PyPDF2][3]* python library to be able to use MERGER.py script.
+If you want to merge the pdfs you have to also have *[PyPDF2][3]* python library to be able to use MERGER.py script.
 
 [3]: https://pythonhosted.org/PyPDF2/
 
@@ -35,7 +35,7 @@ run.sh --> you can write the information of the source (ephemeris, name, etc) an
 
 -------------------------------
                 WARNING
-The run.sh file may not work properly on some operating systems when downloaded from Github, if this happens try rewriting the file or writing the following commands in Unix terminal:
+The run.sh file may not work properly on some operating systems like Windows, if this happens try rewriting the file or writing the following commands in Unix terminal:
 
 $ python python_functions/XMM_data_selector.py <br/>
 $ python python_functions/NuSTAR_data_selector.py <br/>
@@ -74,7 +74,7 @@ colects photons of the standar good time intervals (STDGTI)
 
 classifies photons by energy ranges and plot their pulse profiles using pulse_profile.py.
 
-makes an adjustment of the pulse profiles with sinusoids and return a fits file with their parameters and uncertainties.
+makes an adjustment of the pulse profiles with sinusoids and return a fits file with their parameters and uncertainties and other with the pulses and their fits.
 
 ###  energy_evolution.py
 
