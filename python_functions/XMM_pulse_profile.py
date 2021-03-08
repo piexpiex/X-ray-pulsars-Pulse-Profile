@@ -76,7 +76,7 @@ for k in range(len(name_file)):
 
 
 #times & PI
-hdulist = fits.open("fits_folder/XMM_times.fits")
+hdulist = fits.open("fits_folder/"+add_space(source)+"_XMM_times.fits")
 data = hdulist['VALUES'].data
 times=data.field(0) 
 PI =data.field(1)
@@ -171,7 +171,7 @@ for j in range(nsinusoids):
 
 
 t = fits.BinTableHDU.from_columns(COLUMNS,name='parameters')
-t.writeto('fits_folder/Parameters_XMM.fits',overwrite=True)
+t.writeto('fits_folder/'+add_space(source)+'_Parameters_XMM.fits',overwrite=True)
 
 ############################
 ### Pulse profiles plots ###
@@ -209,7 +209,11 @@ plt.figure(figsize=(22.0,7.0))
 plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hspace=None)
 plt.suptitle('Source:'+source+'  \n XMM-Newton observations \n Pulse period '+str(period)+'s',fontsize=12)
 
-color=['k']*10
+color=['k']*100
+ARG=fits.Column(name='Phase',array=Pulse_profiles[0].ph, format='E')
+Ps=[ARG]
+ARG2=fits.Column(name='Phase',array=ph2, format='E')
+Fs=[ARG2]
 for j in range(len(time_photons)):
 	if len(time_photons)>2:
 		plt.subplot(2,round((len(time_photons)+0.1)/2),j+1)
@@ -225,5 +229,14 @@ for j in range(len(time_photons)):
 	plt.ylabel('Count rate (normalized)')
 	plt.xlabel("$\phi$")
 	plt.legend()
-
+	P = fits.Column(name='Intensity ('+str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV)',array=Pulse_profiles[j].profilenorm, format='E')
+	Ps.append(P)
+	e_P = fits.Column(name='Intensity_err ('+str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV)',array=Pulse_profiles[j].profile_err, format='E')
+	Ps.append(e_P)
+	F = fits.Column(name='Intensity ('+str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV)',array=ffit[j](ph2), format='E')
+	Fs.append(F)
+t = fits.BinTableHDU.from_columns(Ps,name='Pulse_profiles')
+t2 = fits.BinTableHDU.from_columns(Fs,name='Fits')
+t3 = fits.HDUList([fits.PrimaryHDU(),t,t2])
+t3.writeto('fits_folder/'+add_space(source)+'_XMM_pulses.fits',overwrite=True)
 plt.savefig('figures_folder/'+add_space(source)+'_XMM_pulse_profile.pdf')

@@ -36,16 +36,15 @@ period_ranges=period_ranges.astype(np.float)
 
 period_bins=READ[17]
 XMM_time=READ[18]
-print('XMM_time=',XMM_time)
+
 key_overwrite=0
 
 if overwrite=='n' and READ[10]!=0:
 	try:
-		fits.open('fits_folder/XMM_times.fits')
+		fits.open('fits_folder/'+add_space(source)+'_XMM_times.fits')
 		key_overwrite=1
 	except:
 		print('XMM files not found')
-		print('I proceed to find the exact frequencies')
 		key_overwrite=0
 		
 if key_overwrite==1:
@@ -61,7 +60,7 @@ except:
 	
 times=np.array([])
 PHA=np.array([])
-print(name_file)
+
 for k in range(len(name_file)):
 	print('file',k+1,'of',len(name_file))
 	hdulist = fits.open(name_file[k])
@@ -83,13 +82,12 @@ if asini==0 and Porb==0 and ecc==0 and omega_d==0 and T0==0:
 else:
 	print('Correction of the binary sistem delay')
 	TIME=Binary_orbit(time=times,asini=asini,ecc=ecc,porb=Porb,omega_d=omega_d ,t0=T0)
-	print(TIME-times)
 
 c1 = fits.Column(name='TIMES', array=TIME, format='D')
 c2 = fits.Column(name='PHA',array=PHA, format='D')
 
 t = fits.BinTableHDU.from_columns([c1,c2],name='VALUES')
-t.writeto('fits_folder/XMM_times.fits',overwrite=True)
+t.writeto('fits_folder/'+add_space(source)+'_XMM_times.fits',overwrite=True)
 
 times=TIME
 

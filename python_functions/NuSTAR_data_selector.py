@@ -39,11 +39,10 @@ key_overwrite=0
 
 if overwrite=='n' and READ[9]!=0:
 	try:
-		fits.open('fits_folder/nustar_times.fits')
+		fits.open('fits_folder/'+add_space(source)+'_nustar_times.fits')
 		key_overwrite=1
 	except:
 		print('NuSTAR files not found')
-		print('I proceed to find the exact frequencies')
 		key_overwrite=0
 		
 if key_overwrite==1:
@@ -81,7 +80,7 @@ else:
 c1 = fits.Column(name='TIMES', array=TIME, format='D')
 
 t = fits.BinTableHDU.from_columns([c1],name='VALUES')
-t.writeto('fits_folder/nustar_times.fits',overwrite=True)
+t.writeto('fits_folder/'+add_space(source)+'_nustar_times.fits',overwrite=True)
 
 times=TIME
 

@@ -39,7 +39,7 @@ nsinusoids=READ[13]
 
 key_XMM=1
 try:
-	hdulist = fits.open("fits_folder/Parameters_XMM.fits")
+	hdulist = fits.open("fits_folder/"+add_space(source)+"_Parameters_XMM.fits")
 	XMM_parameters = hdulist['PARAMETERS'].data
 except:
 	print('no XMM-Newton data')
@@ -49,7 +49,7 @@ except:
 
 key_nustar=1
 try:
-	hdulist = fits.open("fits_folder/Parameters_NUSTAR.fits")
+	hdulist = fits.open("fits_folder/"+add_space(source)+"_Parameters_NUSTAR.fits")
 	NuSTAR_parameters = hdulist['PARAMETERS'].data
 except:
 	print('no NuSTAR data')
