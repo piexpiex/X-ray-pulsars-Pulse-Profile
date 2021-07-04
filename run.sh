@@ -1,4 +1,4 @@
-'
+: '
 #############################
 ### Files and source name ###
 #############################
@@ -13,7 +13,7 @@ Porb= xx   # [days]
 ecc= xx      # eccentricity
 omega_d= xx  # [degrees]
 T0= xx  # [MJD]
-period = xx # aproximate pulsar spin period [seconds]
+
 pulse_frequency_NuSTAR= 0  # pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
 pulse_frequency_XMM= 0 # pulsar frequency found in XMM observations (0 to find it or insert the value if known)
 ##########################
