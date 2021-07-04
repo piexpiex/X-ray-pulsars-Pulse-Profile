@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from astropy.io import fits
+from astropy.modeling import models, fitting
 from stingray.events import EventList
 from stingray.pulse.search import epoch_folding_search, z_n_search
 from stingray.pulse.pulsar import fold_events
@@ -96,10 +97,38 @@ pulse_frequency=freq[np.where(efstat==max(efstat))[0][0]]
 
 print('pulse frequency',pulse_frequency)
 _=write_files('pulse_frequency_NuSTAR',pulse_frequency)
+
+#fitting epoch folding distribution with Lorentzian curve
+g_init=models.Lorentz1D(amplitude=max(efstat)-min(efstat),x_0=pulse_frequency,fwhm=pulse_frequency/500)+models.Const1D(amplitude=min(efstat))
+fit_g=fitting.LevMarLSQFitter()
+bin_max=[np.where(efstat==max(efstat))[0][0]][0]
+bin_left_min=0
+bin_right_min=len(efstat)
+
+
+for j in range(min(bin_max,len(efstat)-bin_max)-2):
+	d_efstat=efstat[bin_max-j-1]-efstat[bin_max-j]
+	if d_efstat>0 and max(efstat)-efstat[bin_max-j]>(max(efstat)-min(efstat))/2:
+		bin_left_min=bin_max-j
+		break
+for j in range(min(bin_max,len(efstat)-bin_max)-2):
+	d_efstat=efstat[bin_max+j+1]-efstat[bin_max+j]
+	if d_efstat>0 and max(efstat)-efstat[bin_max+j]>(max(efstat)-min(efstat))/2:
+		bin_right_min=bin_max+j
+		break	
+
 # ---- PLOTTING --------
 plt.figure()
 plt.suptitle('Source:'+source+'  \n NuSTAR observations',fontsize=12)
 plt.plot(freq, efstat, label='EF statistics')
+g=fit_g(g_init,freq[bin_left_min:bin_right_min+1],efstat[bin_left_min:bin_right_min+1])
+
+try:
+	fwhm=g[0].fwhm[0]#*2.35
+	print('pulse frequency error',fwhm/2)
+	plt.plot(freq[bin_left_min:bin_right_min],g(freq[bin_left_min:bin_right_min]),'b',label='Pulse frequency='+str(round(pulse_frequency ,2+int(-np.log10(fwhm/2))))+' $\pm$ '+str(round(fwhm/2,2+int(-np.log10(fwhm/2)))))
+except:
+	pass
 plt.axhline(nbin - 1, ls='--', lw=3, color='k', label='n - 1')
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('EF Statistics')

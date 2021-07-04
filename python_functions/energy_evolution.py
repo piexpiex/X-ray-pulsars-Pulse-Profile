@@ -67,7 +67,7 @@ plt.figure(figsize=(22.0,7.0))
 
 for k in range(nsinusoids):
 	plt.subplot(round((nsinusoids+0.1)/2),2,k+1)
-	plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
+	#plt.suptitle('Source:'+source+'  \n Sinusoids amplitudes \n Pulse period '+str(period)+'s',fontsize=12)
 	max_value=0
 	#NuSTAR
 	if key_nustar==1:

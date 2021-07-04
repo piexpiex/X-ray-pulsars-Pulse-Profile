@@ -177,16 +177,23 @@ t.writeto('fits_folder/'+add_space(source)+'_Parameters_XMM.fits',overwrite=True
 ### Pulse profiles plots ###
 ############################
 
-plt.figure(figsize=(22.0,7.0))
-plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hspace=None)
-plt.suptitle('Source:'+source+'  \n XMM-Newton observations \n Pulse period '+str(period)+'s',fontsize=12)
+plt.figure(figsize=(15,15))
+plt.subplots_adjust(left=0.1, bottom=0.06, right=0.94, top=0.92, wspace=0, hspace=0)
+plt.figtext(0.02,0.45,'Count rate (normalized)',rotation='vertical',size=30)
+plt.figtext(0.5,0.02,"$\phi$",size=20)
+#plt.suptitle('Source:'+source+'  \n XMM-Newton observations \n Pulse period '+str(period)+'s',fontsize=12)
 for j in range(len(time_photons)):
-	if len(time_photons)>2:
-		plt.subplot(2,round((len(time_photons)+0.1)/2),j+1)
-	else:
-		plt.subplot(1,round((len(time_photons)+0.1)),j+1)
+	plt.subplot(round((len(time_photons)+0.1)),1,j+1)
 
 	plt.plot(ph2,ffit[j](ph2), 'k',label=str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV')
+	if j==len(time_photons)-1:
+		pass
+	else:
+		plt.xticks([])
+	plt.yticks([20,15,10,5,0,-5,-10,-15,-20],fontsize=15,fontweight='bold')
+	plt.xticks(fontsize=15,fontweight='bold')
+	plt.ylim(min(ffit[j](ph2))*1.5,max(ffit[j](ph2))*1.5)
+	plt.xlim(0,2)
 	for k in range(nsinusoids):
 		if k==0:
 			plt.plot(ph2,ffit[j][k](ph2), 'b--')
@@ -198,16 +205,16 @@ for j in range(len(time_photons)):
 			plt.plot(ph2,ffit[j][k](ph2), 'm--')
 		if k>3:
 			plt.plot(ph2,ffit[j][k](ph2), 'y--')
-	plt.ylim(min(ffit[j](ph2))*1.2,max(ffit[j](ph2))*1.2)
-	plt.ylabel('Count rate (normalized)')
-	plt.xlabel("$\phi$")
-	plt.legend()
+	plt.ylim(min(np.array([min(ffit[j](ph2)),min(Pulse_profiles[j].profilenorm)]))*1.5,max(np.array([max(ffit[j](ph2)),max(Pulse_profiles[j].profilenorm)]))*1.5)
+	plt.legend(fontsize=15)
 
 plt.savefig('figures_folder/'+add_space(source)+'_XMM_pulse_profile_harmonics.pdf')
 
-plt.figure(figsize=(22.0,7.0))
-plt.subplots_adjust(left=0.06, bottom=0.08, right=0.94, top=None, wspace=0.3, hspace=None)
-plt.suptitle('Source:'+source+'  \n XMM-Newton observations \n Pulse period '+str(period)+'s',fontsize=12)
+plt.figure(figsize=(15,15))
+plt.subplots_adjust(left=0.1, bottom=0.06, right=0.94, top=0.92, wspace=0, hspace=0)
+plt.figtext(0.02,0.45,'Count rate (normalized)',rotation='vertical',size=30)
+plt.figtext(0.5,0.02,"$\phi$",size=20)
+#plt.suptitle('Source:'+source+'  \n XMM-Newton observations \n Pulse period '+str(period)+'s',fontsize=12)
 
 color=['k']*100
 ARG=fits.Column(name='Phase',array=Pulse_profiles[0].ph, format='E')
@@ -215,20 +222,22 @@ Ps=[ARG]
 ARG2=fits.Column(name='Phase',array=ph2, format='E')
 Fs=[ARG2]
 for j in range(len(time_photons)):
-	if len(time_photons)>2:
-		plt.subplot(2,round((len(time_photons)+0.1)/2),j+1)
-	else:
-		plt.subplot(1,round((len(time_photons)+0.1)),j+1)
+	plt.subplot(round((len(time_photons)+0.1)),1,j+1)
 
 	plt.step(Pulse_profiles[j].ph,Pulse_profiles[j].profilenorm,where='mid',color=color[j],label=str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV')
 	plt.errorbar(Pulse_profiles[j].ph,Pulse_profiles[j].profilenorm,yerr=Pulse_profiles[j].profile_err,fmt=color[j]+'o',markersize=0.5)
 
 	plt.plot(ph2,ffit[j](ph2), color[j]+'--')
+	if j==len(time_photons)-1:
+		pass
+	else:
+		plt.xticks([])
+	plt.yticks([20,15,10,5,0,-5,-10,-15,-20],fontsize=15,fontweight='bold')
+	plt.xticks(fontsize=15,fontweight='bold')
+	plt.ylim(min(np.array([min(ffit[j](ph2)),min(Pulse_profiles[j].profilenorm)]))*1.5,max(np.array([max(ffit[j](ph2)),max(Pulse_profiles[j].profilenorm)]))*1.5)
+	plt.xlim(0,2)
 
-	plt.ylim(min(ffit[j](ph2))*1.2,max(ffit[j](ph2))*1.2)
-	plt.ylabel('Count rate (normalized)')
-	plt.xlabel("$\phi$")
-	plt.legend()
+	plt.legend(fontsize=15)
 	P = fits.Column(name='Intensity ('+str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV)',array=Pulse_profiles[j].profilenorm, format='E')
 	Ps.append(P)
 	e_P = fits.Column(name='Intensity_err ('+str(Energy_ranges[j])+'-'+str(Energy_ranges[j+1])+' KeV)',array=Pulse_profiles[j].profile_err, format='E')

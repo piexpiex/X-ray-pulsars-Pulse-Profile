@@ -81,7 +81,7 @@ def read_files():
 		elif run_file[j][0][0:2]=='T0':
 			T0=float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:6]=='period' and run_file[j][0][6]!='_':
-			period=float(delete_space(run_file[j][1]))
+			period=0 #float(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:4]=='nbin':
 			nbin=int(delete_space(run_file[j][1]))
 		elif run_file[j][0][0:10]=='nsinusoids':
@@ -112,6 +112,7 @@ def read_files():
 				Z_2_check='N'
 		elif run_file[j][0][0:13]=='energy_ranges':
 			energy_ranges=lister(delete_space(run_file[j][1]))
+	period=0
 	return(NuSTAR_file,XMM_file,source,asini,Porb,ecc,omega,T0,period,pulse_frequency_NuSTAR,pulse_frequency_XMM,
 	energy_ranges,nbin,nsinusoids,overwrite,Z_2_check,period_ranges,period_bins,XMM_time,nustar_time)
 
