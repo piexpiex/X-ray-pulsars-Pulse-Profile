@@ -10,14 +10,23 @@ These programs include:
 
 -Data analysis and technical processes
 
--Search pulse frequency of the pulsar
+-Search pulse frequency of the pulsar in each observation with epoch folding distribution (and if it were possible the epoch folding distribution would be fitted by a Lorentzian curve in order to obtain the respective uncertainty)
 
 -Represent the pulse profiles in differents energy ranges
 
+<p align="center">
+<img src="figures/Vela_X-1_NuSTAR_pulse_profile.pdf" width=300>
+
 -Fit the pulse profiles by a number of sinusoids
+  
+<p align="center">
+<img src="figures/Vela_X-1_NuSTAR_pulse_profile_harmonics.pdf" width=300>
 
--Represent the dependence of the sinusoids parameters with the energy
+-Represent the variation of the sinusoids parameters with the energy
 
+<p align="center">
+<img src="figures/Vela_X-1_amplitudes_energy_variation.pdf" width=300>
+  
 ## Requierements
 
 It is necesary to install *[Stingray][1]* and *[Astropy][2]* Python packages.
@@ -96,8 +105,6 @@ omega_d= xx --> longitude of periastron in degrees
 T0= xx --> epoch for mean longitude of 0 degrees in MJD system
 
 (to perform the analysis without the binay orbit correction, set asini=0, Porb=0, ecc=0, omega_d=0 and T0=0)
-
-period = xx --> pulsar aproximate spin period
 
 pulse_frequency_NuSTAR= 0 --> pulsar frequency found in NuSTAR observations (0 to find it or insert the value if known) 
 pulse_frequency_XMM= 0 --> pulsar frequency found in XMM-Newton observations (0 to find it or insert the value if known)
