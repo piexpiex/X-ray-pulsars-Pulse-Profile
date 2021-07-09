@@ -123,7 +123,8 @@ period_ranges=[xx,xx] --> range to search the pulse period
 
 period_bins= xx --> number of period bins to test
 
-XMM_Tstart= xx --> Initial time of XMM-Newton observation
+XMM_Tstart= xx --> Initial time of XMM-Newton observation  <br/>
 NuSTAR_Tstart= xx --> Initial time of NuSTAR observation
+  
 
 
