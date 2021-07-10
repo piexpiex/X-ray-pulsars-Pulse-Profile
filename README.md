@@ -15,17 +15,17 @@ These programs include:
 -Represent the pulse profiles in differents energy ranges
 
 <p align="center">
-<img src="figures/Vela_X-1_NuSTAR_pulse_profile.png" >
+<img src="figures/Vela_X-1_NuSTAR_pulse_profile.png" width=900>
   
 -Fit the pulse profiles by a number of sinusoids
   
 <p align="center">
-<img src="figures/Vela_X-1_NuSTAR_pulse_profile_harmonics.png" >
+<img src="figures/Vela_X-1_NuSTAR_pulse_profile_harmonics.png" width=900>
 
 -Represent the variation of the sinusoids parameters with the energy
 
 <p align="center">
-<img src="figures/Vela_X-1_amplitudes_energy_variation.png" width=300>
+<img src="figures/Vela_X-1_amplitudes_energy_variation.png" width=900>
   
 ## Requierements
 
