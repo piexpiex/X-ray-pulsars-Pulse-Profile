@@ -15,7 +15,7 @@ These programs include:
 -Represent the pulse profiles in differents energy ranges
 
 <p align="center">
-<embed src="figures/Vela_X-1_NuSTAR_pulse_profile.pdf" width=300 />
+<embed src="figures/Vela_X-1_NuSTAR_pulse_profile.pdf" type="application/pdf" width=300>
 
 -Fit the pulse profiles by a number of sinusoids
   
