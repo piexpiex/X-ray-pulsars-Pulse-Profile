@@ -15,8 +15,7 @@ These programs include:
 -Represent the pulse profiles in differents energy ranges
 
 <p align="center">
-<object data="figures/Vela_X-1_NuSTAR_pulse_profile.pdf" type="application/pdf" width="90%">
-  </object>
+[embed]https://github.com/piexpiex/X-ray-pulsars-Pulse-Profile/blob/master/figures/Vela_X-1_NuSTAR_pulse_profile.pdf[/embed]
   
 -Fit the pulse profiles by a number of sinusoids
   
