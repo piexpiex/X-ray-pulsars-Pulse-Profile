@@ -118,4 +118,8 @@ XMM_Tstart= xx --> Initial time of XMM-Newton observation  <br/>
 NuSTAR_Tstart= xx --> Initial time of NuSTAR observation
   
 
+## How to cite
 
+If you had used this software, please, cite the following paper:
+
+Alonso-Hernández et al.,2022, Common patterns in pulse profiles of high-mass X-ray binaries, Astronomy & Astrophysics Volumen 662, A62.
