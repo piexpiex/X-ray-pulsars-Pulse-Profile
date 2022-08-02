@@ -122,6 +122,6 @@ NuSTAR_Tstart= xx --> Initial time of NuSTAR observation
 
 If you had used this software, please, cite the following paper:
 
-*[Alonso-Hernández et al.,2022, Common patterns in pulse profiles of high-mass X-ray binaries, Astronomy & Astrophysics Volumen 662, A62.][4]*
+*[Alonso-Hernández et al.,2022, Common patterns in pulse profiles of high-mass X-ray binaries, Astronomy & Astrophysics Volumen 662, A62.][5]*
 
-[4]: https://www.aanda.org/articles/aa/full_html/2022/06/aa41774-21/aa41774-21.html
+[5]: https://www.aanda.org/articles/aa/full_html/2022/06/aa41774-21/aa41774-21.html
